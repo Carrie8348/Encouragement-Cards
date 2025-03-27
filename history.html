@@ -170,16 +170,17 @@
       modal.style.display = "flex";
 
       shareBtn.onclick = () => {
-        if (navigator.share) {
-          navigator.share({
-            title: "My Encouragement Card",
-            text: "I just drew this card!",
-            url: src
-          });
-        } else {
-          alert("Sharing not supported on this device.");
-        }
-      };
+      if (navigator.share) {
+        navigator.share({
+          title: "Encouragement Card 🎁",
+          text: "Check out this cool kid encouragement ticket!",
+          url: "https://carrie8348.github.io/Encouragement-Cards/"
+        });
+      } else {
+        alert("Sharing not supported on this device.");
+      }
+    };
+
     }
 
     function closeModal() {
