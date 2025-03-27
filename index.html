@@ -64,20 +64,20 @@
     }
 
     .animate {
-      animation: floatCard 1s ease forwards;
+      animation: floatCardZoom 1s ease forwards;
     }
 
-    @keyframes floatCard {
+    @keyframes floatCardZoom {
       0% {
-        transform: translateX(-50%) translateY(200px) rotate(0deg);
+        transform: translateX(-50%) translateY(200px) scale(0.5) rotate(0deg);
         opacity: 0;
       }
       50% {
-        transform: translateX(-50%) translateY(30px) rotate(180deg);
+        transform: translateX(-50%) translateY(30px) scale(1.2) rotate(180deg);
         opacity: 1;
       }
       100% {
-        transform: translateX(-50%) translateY(0px) rotate(360deg);
+        transform: translateX(-50%) translateY(0px) scale(1) rotate(360deg);
         opacity: 1;
       }
     }
@@ -120,7 +120,7 @@
 
     .more-link {
       margin-top: 12px;
-      font-size: 14px;
+      font-size: 28px;
     }
 
     .more-link a {
@@ -254,6 +254,13 @@
       card.classList.remove("animate");
       void card.offsetWidth;
       card.classList.add("animate");
+
+      // 播放音效
+      const audio = document.getElementById("drawSound");
+      if (audio) {
+        audio.currentTime = 0;
+        audio.play();
+      }
 
       const now = new Date();
       const timestamp = now.toISOString();
