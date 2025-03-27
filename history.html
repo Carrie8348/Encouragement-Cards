@@ -68,6 +68,17 @@
       animation: zoomIn 0.3s ease;
     }
 
+    .modal-content {
+      text-align: center;
+    }
+
+    .modal-time {
+      color: white;
+      font-size: 16px;
+      margin-top: 12px;
+    }
+
+
     @keyframes zoomIn {
       from {
         transform: scale(0.6);
@@ -96,8 +107,12 @@
 
   <!-- 🌟 模态层 -->
   <div id="modalOverlay" class="modal-overlay">
-    <img id="modalImage" class="modal-image" src="" alt="Card Preview" />
-  </div>  
+    <div class="modal-content">
+      <img id="modalImage" class="modal-image" src="" alt="Card Preview" />
+      <div id="modalTime" class="modal-time"></div>
+    </div>
+  </div>
+  
 
   <script>
     function formatTime(isoString) {
@@ -111,12 +126,16 @@
       });
     }
 
-    function showModal(src) {
+    function showModal(src, timestamp) {
       const modal = document.getElementById("modalOverlay");
       const modalImg = document.getElementById("modalImage");
+      const modalTime = document.getElementById("modalTime");
+
       modalImg.src = src;
+      modalTime.textContent = formatTime(timestamp);
       modal.style.display = "flex";
-    }
+    } 
+
 
     function closeModal() {
       document.getElementById("modalOverlay").style.display = "none";
