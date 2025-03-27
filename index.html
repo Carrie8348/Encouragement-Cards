@@ -298,20 +298,18 @@
       modal.style.display = "flex";
 
       shareBtn.onclick = () => {
-      if (navigator.share) {
-        navigator.share({
-          title: "Encouragement Card 🎁",
-          text:
-            "Check out this cool kid encouragement ticket:\n" +
-            "Encouragement Cards 👉 https://carrie8348.github.io/Encouragement-Cards/\n\n" +
-            "🖼️ Here's the card I drew:\n" + modalImg.src,
-          url: modalImg.src  // 图片作为链接点击时预览
-        });
-      } else {
-        alert("Sharing not supported on this device.");
-      }
-    };
-
+        if (navigator.share) {
+          navigator.share({
+            title: "Encouragement Cards 🎁",
+            text:
+              "Check out this cool kid encouragement ticket! 🎁\n" +
+              "Encouragement Cards 👉 https://carrie8348.github.io/Encouragement-Cards/\n\n" +
+              "🖼️ Here's the one I drew:\n" + modalImg.src
+          });
+        } else {
+          alert("Sharing not supported on this device.");
+        }
+      };
 
     }
 
