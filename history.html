@@ -122,18 +122,6 @@
       document.getElementById("modalOverlay").style.display = "none";
     }
 
-    // 监听点击模态背景关闭
-      document.addEventListener('DOMContentLoaded', () => {
-        const overlay = document.getElementById("modalOverlay");
-        overlay.addEventListener('click', function (e) {
-          // 只有点击背景才关闭，点击图片不关闭
-          if (e.target === overlay) {
-            closeModal();
-          }
-        });
-      });
-
-
     function loadHistory() {
       const history = JSON.parse(localStorage.getItem("cardHistory")) || [];
       const container = document.getElementById("fullHistory");
@@ -159,6 +147,17 @@
     }
 
     window.onload = loadHistory;
+
+    // 监听点击模态背景关闭
+    document.addEventListener('DOMContentLoaded', () => {
+        const overlay = document.getElementById("modalOverlay");
+        overlay.addEventListener('click', function (e) {
+          // 只有点击背景才关闭，点击图片不关闭
+          if (e.target === overlay) {
+            closeModal();
+          }
+        });
+      });
   </script>
 </body>
 </html>
