@@ -23,15 +23,13 @@
       font-size: 16px;
       border-radius: 10px;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-      z-index: 9999; /* ✅ 改高一点 */
+      z-index: 9999;
       transition: background-color 0.3s ease;
     }
-
 
     .back-button:hover {
       background-color: #5D0565;
     }
-
 
     h1 {
       font-size: 2rem;
@@ -67,7 +65,6 @@
       margin-top: 6px;
     }
 
-    /* 🌟 模态预览样式 */
     .modal-overlay {
       position: fixed;
       top: 0;
@@ -81,6 +78,10 @@
       z-index: 1000;
     }
 
+    .modal-content {
+      text-align: center;
+    }
+
     .modal-image {
       max-width: 90%;
       max-height: 80%;
@@ -89,16 +90,27 @@
       animation: zoomIn 0.3s ease;
     }
 
-    .modal-content {
-      text-align: center;
-    }
-
     .modal-time {
       color: white;
       font-size: 16px;
       margin-top: 12px;
     }
 
+    .modal-share-button {
+      margin-top: 14px;
+      padding: 8px 18px;
+      font-size: 15px;
+      background-color: #7E3285;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .modal-share-button:hover {
+      background-color: #5D0565;
+    }
 
     @keyframes zoomIn {
       from {
@@ -110,24 +122,6 @@
         opacity: 1;
       }
     }
-
-    .share-button {
-        margin-top: 8px;
-        padding: 6px 12px;
-        margin: 10px auto 6px;
-        display: inline-block;
-        font-size: 14px;
-        background-color: #7E3285;
-        color: white;
-        border: none;
-        border-radius: 8px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-      }
-
-      .share-button:hover {
-        background-color: #5D0565;
-      }
 
     @media (max-width: 600px) {
       .record {
@@ -145,14 +139,13 @@
   <h1>Your Card Draw History</h1>
   <div id="fullHistory" class="history-grid"></div>
 
-  <!-- 🌟 模态层 -->
   <div id="modalOverlay" class="modal-overlay">
     <div class="modal-content">
       <img id="modalImage" class="modal-image" src="" alt="Card Preview" />
       <div id="modalTime" class="modal-time"></div>
+      <button id="shareModalBtn" class="modal-share-button">Share</button>
     </div>
   </div>
-  
 
   <script>
     function formatTime(isoString) {
@@ -162,7 +155,7 @@
         month: '2-digit',
         day: '2-digit',
         hour: '2-digit',
-        minute: '2-digit',
+        minute: '2-digit'
       });
     }
 
@@ -170,12 +163,24 @@
       const modal = document.getElementById("modalOverlay");
       const modalImg = document.getElementById("modalImage");
       const modalTime = document.getElementById("modalTime");
+      const shareBtn = document.getElementById("shareModalBtn");
 
       modalImg.src = src;
       modalTime.textContent = formatTime(timestamp);
       modal.style.display = "flex";
-    } 
 
+      shareBtn.onclick = () => {
+        if (navigator.share) {
+          navigator.share({
+            title: "My Encouragement Card",
+            text: "I just drew this card!",
+            url: src
+          });
+        } else {
+          alert("Sharing not supported on this device.");
+        }
+      };
+    }
 
     function closeModal() {
       document.getElementById("modalOverlay").style.display = "none";
@@ -195,28 +200,11 @@
         img.alt = `Card ${entry.num}`;
         img.onclick = () => showModal(img.src, entry.time);
 
-        const shareBtn = document.createElement("button");
-        shareBtn.textContent = "Share";
-        shareBtn.className = "share-button";
-        shareBtn.onclick = () => {
-          if (navigator.share) {
-            navigator.share({
-              title: "My Encouragement Card",
-              text: "I just drew this card!",
-              url: img.src, // 当前卡片的图片地址
-            });
-          } else {
-            alert("Sharing not supported on this device.");
-          }
-        };
-
-
         const time = document.createElement("div");
         time.className = "timestamp";
         time.textContent = formatTime(entry.time);
 
         record.appendChild(img);
-        record.appendChild(shareBtn);
         record.appendChild(time);
         container.appendChild(record);
       });
@@ -224,16 +212,14 @@
 
     window.onload = loadHistory;
 
-    // 监听点击模态背景关闭
     document.addEventListener('DOMContentLoaded', () => {
-        const overlay = document.getElementById("modalOverlay");
-        overlay.addEventListener('click', function (e) {
-          // 只有点击背景才关闭，点击图片不关闭
-          if (e.target === overlay) {
-            closeModal();
-          }
-        });
+      const overlay = document.getElementById("modalOverlay");
+      overlay.addEventListener('click', function (e) {
+        if (e.target === overlay) {
+          closeModal();
+        }
       });
+    });
   </script>
 </body>
 </html>
