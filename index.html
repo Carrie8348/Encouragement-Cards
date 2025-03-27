@@ -120,7 +120,7 @@
 
     .more-link {
       margin-top: 12px;
-      font-size: 30px;
+      font-size: 14px;
     }
 
     .more-link a {
@@ -157,6 +157,22 @@
       color: white;
       font-size: 16px;
       margin-top: 12px;
+    }
+
+    .modal-share-button {
+      margin-top: 14px;
+      padding: 8px 18px;
+      font-size: 15px;
+      background-color: #7E3285;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .modal-share-button:hover {
+      background-color: #5D0565;
     }
 
     @keyframes zoomIn {
@@ -222,20 +238,11 @@
     <div class="modal-content">
       <img id="modalImage" class="modal-image" src="" alt="Card Preview" />
       <div id="modalTime" class="modal-time"></div>
+      <button id="shareModalBtn" class="modal-share-button">Share</button>
     </div>
   </div>
 
-  <audio id="drawSound" src="sounds/ding.mp3" preload="auto"></audio>
-
   <script>
-    function formatTime(isoString) {
-      const date = new Date(isoString);
-      return date.toLocaleString([], {
-        year: 'numeric', month: '2-digit', day: '2-digit',
-        hour: '2-digit', minute: '2-digit'
-      });
-    }
-
     function drawCard() {
       const totalCards = 102;
       const randomNum = Math.floor(Math.random() * totalCards) + 1;
@@ -248,12 +255,6 @@
       void card.offsetWidth;
       card.classList.add("animate");
 
-      const audio = document.getElementById("drawSound");
-      if (audio) {
-        audio.currentTime = 0;
-        audio.play();
-      }
-
       const now = new Date();
       const timestamp = now.toISOString();
 
@@ -264,18 +265,14 @@
       renderHistory();
     }
 
-    function renderHistory() {
-      const history = JSON.parse(localStorage.getItem("cardHistory")) || [];
-      const historyList = document.getElementById("historyList");
-      historyList.innerHTML = "";
-
-      const recent = history.slice(-5).reverse();
-      recent.forEach((entry) => {
-        const img = document.createElement("img");
-        img.src = `cards/card-${entry.num}.png`;
-        img.alt = `Card ${entry.num}`;
-        img.onclick = () => showModal(img.src, entry.time);
-        historyList.appendChild(img);
+    function formatTime(isoString) {
+      const date = new Date(isoString);
+      return date.toLocaleString([], {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit"
       });
     }
 
@@ -283,24 +280,58 @@
       const modal = document.getElementById("modalOverlay");
       const modalImg = document.getElementById("modalImage");
       const modalTime = document.getElementById("modalTime");
+      const shareBtn = document.getElementById("shareModalBtn");
+
       modalImg.src = src;
       modalTime.textContent = formatTime(timestamp);
       modal.style.display = "flex";
+
+      shareBtn.onclick = () => {
+        if (navigator.share) {
+          navigator.share({
+            title: "My Encouragement Card",
+            text: "I just drew this card!",
+            url: src
+          });
+        } else {
+          alert("Sharing not supported on this device.");
+        }
+      };
     }
 
     function closeModal() {
       document.getElementById("modalOverlay").style.display = "none";
     }
 
-    document.addEventListener("DOMContentLoaded", () => {
-      document.getElementById("modalOverlay").addEventListener("click", (e) => {
-        if (e.target === e.currentTarget) {
+    function renderHistory() {
+      const history = JSON.parse(localStorage.getItem("cardHistory")) || [];
+      const historyList = document.getElementById("historyList");
+      historyList.innerHTML = "";
+
+      const recent = history.slice(-5).reverse();
+      recent.forEach((entry) => {
+        if (entry && entry.num) {
+          const img = document.createElement("img");
+          img.src = `cards/card-${entry.num}.png`;
+          img.alt = `Card ${entry.num}`;
+          img.onclick = () => showModal(img.src, entry.time);
+          historyList.appendChild(img);
+        }
+      });
+    }
+
+    window.onload = () => {
+      renderHistory();
+
+      const overlay = document.getElementById("modalOverlay");
+      overlay.addEventListener("click", function (e) {
+        if (e.target === overlay) {
           closeModal();
         }
       });
-    });
-
-    window.onload = renderHistory;
+    };
   </script>
+
+  <audio id="drawSound" src="sounds/ding.mp3" preload="auto"></audio>
 </body>
 </html>
