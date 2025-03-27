@@ -39,8 +39,6 @@
     }
 
 
-
-
     .container {
       max-width: 800px;
       margin: 0 auto;
@@ -48,7 +46,7 @@
 
     .draw-area {
       position: relative;
-      height: 550px;
+      height: 350px;
       margin-bottom: 20px;
     }
 
@@ -210,6 +208,9 @@
       card.classList.remove("animate");
       void card.offsetWidth;
       card.classList.add("animate");
+
+      // ✅ ⬇️ 让盒子区域拉高显示动画
+  document.querySelector('.draw-area').style.height = "550px";
 
       const now = new Date();
       const timestamp = now.toISOString();
