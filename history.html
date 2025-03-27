@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>All Card Draw Records</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background-color: #f2f6fc;
+      text-align: center;
+      padding: 2rem 1rem;
+    }
+
+    h1 {
+      margin-bottom: 1.5rem;
+      color: #47034E;
+    }
+
+    #fullHistory {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 20px;
+      justify-items: center;
+      padding: 0 1rem;
+    }
+
+    .record {
+      background-color: transparent;
+      padding: 10px;
+      border-radius: 8px;
+      box-shadow: none;
+      text-align: center;
+      width: 100%;
+      max-width: 180px;
+    }
+
+    .record img {
+      width: 100%;
+      height: auto;
+      border-radius: 6px;
+  
+    }
+
+    .timestamp {
+      font-size: 13px;
+      color: #555;
+      margin-top: 6px;
+    }
+
+    .back-link {
+      margin-top: 40px;
+      font-size: 14px;
+    }
+
+    .back-link a {
+      color: #9f5ea5;
+      text-decoration: none;
+    }
+
+    .back-link a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>All Card Draw Records</h1>
+
+  <!-- ✅ 卡片展示区域 -->
+  <div id="fullHistory"></div>
+
+  <!-- 🔙 返回按钮 -->
+  <div class="back-link">
+    <a href="index.html">← Back to Draw Page</a>
+  </div>
+
+  <script>
+    function formatTime(isoString) {
+      if (!isoString) return "Unknown time";
+      const date = new Date(isoString);
+      const y = date.getFullYear();
+      const m = String(date.getMonth() + 1).padStart(2, "0");
+      const d = String(date.getDate()).padStart(2, "0");
+      const h = String(date.getHours()).padStart(2, "0");
+      const min = String(date.getMinutes()).padStart(2, "0");
+      return `${y}-${m}-${d} ${h}:${min}`;
+    }
+
+    function renderFullHistory() {
+      const history = JSON.parse(localStorage.getItem("cardHistory")) || [];
+      const fullDiv = document.getElementById("fullHistory");
+      fullDiv.innerHTML = "";
+
+      if (history.length === 0) {
+        fullDiv.innerHTML = "<p>No cards drawn yet.</p>";
+        return;
+      }
+
+      const reversed = history.slice().reverse();
+
+      reversed.forEach((entry) => {
+        if (!entry || !entry.num) return;
+
+        const div = document.createElement("div");
+        div.className = "record";
+
+        const img = document.createElement("img");
+        img.src = `cards/card-${entry.num}.png`;
+        img.alt = `Card ${entry.num}`;
+
+        const time = document.createElement("div");
+        time.className = "timestamp";
+        time.textContent = formatTime(entry.time);
+
+        div.appendChild(img);
+        div.appendChild(time);
+        fullDiv.appendChild(div);
+      });
+    }
+
+    renderFullHistory();
+  </script>
+
+</body>
+</html>

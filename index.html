@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Encouragement Card Draw</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background-color: #ccbdf2;
+      text-align: center;
+      padding: 2rem 1rem;
+    }
+
+    h1 {
+      margin-bottom: 1rem;
+      color: #47034E;
+    }
+
+    .rainbow-title {
+      font-size: 2.5rem;
+      font-weight: bold;
+      background: white;
+      display: inline-block;
+      padding: 0.5rem 1.2rem;
+      border-radius: 1rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      margin-bottom: 1rem;
+    }
+
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .draw-area {
+      position: relative;
+      height: 550px;
+      margin-bottom: 20px;
+    }
+
+    .card-box {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 300px;
+      height: auto;
+      z-index: 1;
+    }
+
+    .floating-card {
+      position: absolute;
+      bottom: 180px;
+      left: 50%;
+      transform: translateX(-50%) translateY(0);
+      width: auto;
+      height: auto;
+      max-width: 90%;
+      max-height: 400px;
+      display: none;
+      z-index: 2;
+      opacity: 1;
+    }
+
+    .animate {
+      animation: floatCard 1s ease forwards;
+    }
+
+    @keyframes floatCard {
+      0% {
+        transform: translateX(-50%) translateY(200px) rotate(0deg);
+        opacity: 0;
+      }
+      50% {
+        transform: translateX(-50%) translateY(30px) rotate(180deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateX(-50%) translateY(0px) rotate(360deg);
+        opacity: 1;
+      }
+    }
+
+    .btn {
+      margin: 10px auto;
+      padding: 12px 24px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: none;
+      background-color: #7E3285;
+      color: white;
+      cursor: pointer;
+      display: inline-block;
+    }
+
+    .btn:hover {
+      background-color: #5D0565;
+    }
+
+    .history {
+      margin-top: 40px;
+    }
+
+    .history h2 {
+      margin-bottom: 10px;
+      color: #47034E;
+    }
+
+    .history-list {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .history img {
+      width: 100px;
+      height: auto;
+      object-fit: contain;
+      border-radius: 6px;
+
+    }
+
+    .more-link {
+      margin-top: 10px;
+      font-size: 14px;
+    }
+
+    .more-link a {
+      color: #9f5ea5;
+      text-decoration: none;
+    }
+
+  </style>
+</head>
+<body>
+
+  <h1 class="rainbow-title">
+    <span style="color:#F94144">E</span>
+    <span style="color:#F3722C">n</span>
+    <span style="color:#F8961E">c</span>
+    <span style="color:#F9844A">o</span>
+    <span style="color:#F9C74F">u</span>
+    <span style="color:#90BE6D">r</span>
+    <span style="color:#43AA8B">a</span>
+    <span style="color:#577590">g</span>
+    <span style="color:#4D908E">e</span>
+    <span style="color:#577590">m</span>
+    <span style="color:#F9C74F">e</span>
+    <span style="color:#F8961E">n</span>
+    <span style="color:#F3722C">t</span>
+    &nbsp;
+    <span style="color:#F94144">C</span>
+    <span style="color:#F3722C">a</span>
+    <span style="color:#F9C74F">r</span>
+    <span style="color:#90BE6D">d</span>
+  </h1>
+
+  <div class="container">
+    <div class="draw-area">
+      <img id="cardImage" class="floating-card" src="" alt="Card" />
+      <img class="card-box" src="cards/card-box.png" alt="Card Box" />
+    </div>
+
+    <button class="btn" onclick="drawCard()">Draw a Card</button>
+
+    <div class="history">
+      <h2>Recent Draws</h2>
+      <div id="historyList" class="history-list"></div>
+      <div class="more-link">
+        <a href="history.html">View All Draws →</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function drawCard() {
+      const totalCards = 102;
+      const randomNum = Math.floor(Math.random() * totalCards) + 1;
+      const imageUrl = `cards/card-${randomNum}.png`;
+
+      const card = document.getElementById("cardImage");
+      card.src = imageUrl;
+      card.style.display = "block";
+      card.classList.remove("animate");
+      void card.offsetWidth;
+      card.classList.add("animate");
+
+      const now = new Date();
+      const timestamp = now.toISOString();
+
+      let history = JSON.parse(localStorage.getItem("cardHistory")) || [];
+      history.push({ num: randomNum, time: timestamp });
+      localStorage.setItem("cardHistory", JSON.stringify(history));
+
+      renderHistory();
+    }
+
+    function renderHistory() {
+      const history = JSON.parse(localStorage.getItem("cardHistory")) || [];
+      const historyList = document.getElementById("historyList");
+      historyList.innerHTML = "";
+
+      const recent = history.slice(-5).reverse();
+      recent.forEach((entry) => {
+        if (entry && entry.num) {
+          const img = document.createElement("img");
+          img.src = `cards/card-${entry.num}.png`;
+          img.alt = `Card ${entry.num}`;
+          historyList.appendChild(img);
+        }
+      });
+    }
+
+    window.onload = renderHistory;
+  </script>
+
+</body>
+</html>
