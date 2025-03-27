@@ -18,20 +18,16 @@
     }
 
     .rainbow-title {
-      font-size: 2rem;
+      font-size: 2.2rem;
       font-weight: bold;
       background: white;
-      padding: 0.6rem 1rem;
-      border-radius: 1rem;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
       display: inline-block;
-
-      position: absolute;
-      top: 20px;
-      left: 20px;
-      margin: 0;
+      padding: 0.6rem 1.2rem;
+      border-radius: 1.2rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      margin: 1rem 0 2rem 1.5rem;  /* 让它靠左 */
       white-space: nowrap;
-    }
+    } 
 
     .rainbow-title .line {
       white-space: nowrap;
@@ -45,8 +41,8 @@
 
     .draw-area {
       position: relative;
-      height: 250px;
-      margin-bottom: 20px;
+      height: 280px;
+      margin: 2rem 0; /* ✅ 上下留白，避免太贴近标题 */
     }
 
     .card-box {
@@ -309,6 +305,8 @@
       card.classList.remove("animate");
       void card.offsetWidth;
       card.classList.add("animate");
+      document.querySelector(".card-box").scrollIntoView({ behavior: "smooth", block: "center" });
+
 
       let history = JSON.parse(localStorage.getItem("cardHistory")) || [];
       history.push({ num: randomNum, time: timestamp });
