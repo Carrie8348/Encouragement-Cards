@@ -12,6 +12,12 @@
       padding: 2rem 1rem;
     }
 
+    .header {
+      padding: 1rem 0 0 1.2rem; /* 顶部空间 + 左对齐 */
+      text-align: left;
+    }
+
+
     h1 {
       margin-bottom: 1rem;
       color: #47034E;
@@ -25,7 +31,7 @@
       padding: 0.6rem 1.2rem;
       border-radius: 1.2rem;
       box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-      margin: 1rem 0 2rem 1.5rem;  /* 让它靠左 */
+      margin: 0;
       white-space: nowrap;
     } 
 
@@ -42,7 +48,8 @@
     .draw-area {
       position: relative;
       height: 280px;
-      margin: 2rem 0; /* ✅ 上下留白，避免太贴近标题 */
+      margin-top: 2rem;/* 让出空间，避免卡片重叠标题 */
+      margin-bottom: 2rem;
     }
 
     .card-box {
@@ -200,27 +207,28 @@
   </style>
 </head>
 <body>
-  <h1 class="rainbow-title">
-    <span style="color:#F94144">E</span>
-    <span style="color:#F3722C">n</span>
-    <span style="color:#F8961E">c</span>
-    <span style="color:#F9844A">o</span>
-    <span style="color:#F9C74F">u</span>
-    <span style="color:#90BE6D">r</span>
-    <span style="color:#43AA8B">a</span>
-    <span style="color:#577590">g</span>
-    <span style="color:#4D908E">e</span>
-    <span style="color:#577590">m</span>
-    <span style="color:#F9C74F">e</span>
-    <span style="color:#F8961E">n</span>
-    <span style="color:#F3722C">t</span>
-    &nbsp;
-    <span style="color:#F94144">C</span>
-    <span style="color:#F3722C">a</span>
-    <span style="color:#F9C74F">r</span>
-    <span style="color:#90BE6D">d</span>
-  </h1>
-  
+  <div class="header">
+    <h1 class="rainbow-title">
+      <span style="color:#F94144">E</span>
+      <span style="color:#F3722C">n</span>
+      <span style="color:#F8961E">c</span>
+      <span style="color:#F9844A">o</span>
+      <span style="color:#F9C74F">u</span>
+      <span style="color:#90BE6D">r</span>
+      <span style="color:#43AA8B">a</span>
+      <span style="color:#577590">g</span>
+      <span style="color:#4D908E">e</span>
+      <span style="color:#577590">m</span>
+      <span style="color:#F9C74F">e</span>
+      <span style="color:#F8961E">n</span>
+      <span style="color:#F3722C">t</span>
+      &nbsp;
+      <span style="color:#F94144">C</span>
+      <span style="color:#F3722C">a</span>
+      <span style="color:#F9C74F">r</span>
+      <span style="color:#90BE6D">d</span>
+    </h1>
+  </div>
 
   <div class="container">
     <div class="draw-area">
