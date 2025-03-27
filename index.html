@@ -128,6 +128,38 @@
     }
   }
 
+  .particles {
+    position: absolute;
+    bottom: 180px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    z-index: 3;
+    pointer-events: none;
+  }
+
+.particle {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background: gold;
+    border-radius: 50%;
+    opacity: 0.9;
+    animation: fly 1s ease-out forwards;
+  }
+
+@keyframes fly {
+    0% {
+      transform: translate(0, 0) scale(1);
+      opacity: 1;
+    }
+    100% {
+      transform: translate(var(--x), var(--y)) scale(0.3);
+      opacity: 0;
+    }
+  }
+
 
     .btn {
       margin: 10px auto;
@@ -218,6 +250,7 @@
   <div class="container">
     <div class="draw-area">
       <div class="card-glow"></div><!-- ✨发光层，放在卡片后面 -->
+      <div class="particles"></div> <!-- ✨星星粒子层 -->
       <img id="cardImage" class="floating-card" src="" alt="Card" />
       <img class="card-box" src="cards/card-box.png" alt="Card Box" />
     </div>
@@ -258,6 +291,25 @@
       glow.classList.remove("active");
       void glow.offsetWidth; // 触发重绘
       glow.classList.add("active");
+
+      // ✨ 生成星星粒子
+      const particlesContainer = document.querySelector('.particles');
+      for (let i = 0; i < 12; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+      
+        const angle = Math.random() * 2 * Math.PI;
+        const distance = 60 + Math.random() * 40;
+        const x = Math.cos(angle) * distance + 'px';
+        const y = Math.sin(angle) * distance + 'px';
+
+        particle.style.setProperty('--x', x);
+        particle.style.setProperty('--y', y);
+
+        particlesContainer.appendChild(particle);
+
+        setTimeout(() => particle.remove(), 1000);
+      }
 
       // ✅ ⬇️ 让盒子区域拉高显示动画
       document.querySelector('.draw-area').style.height = "550px";
