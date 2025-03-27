@@ -64,17 +64,23 @@
     }
 
     .animate {
-      animation: floatCardZoom 0.8s ease-out forwards;
+      animation: floatFromBox 0.9s cubic-bezier(0.25, 1, 0.5, 1) forwards;
     }
 
-    @keyframes floatCardZoom {
+    @keyframes floatFromBox {
       0% {
-        transform: translateX(-50%) translateY(200px) scale(0.3) rotate(0deg);
+        transform: translateX(-50%) translateY(150px) scale(0.2) rotate(0deg);
         opacity: 0;
+        filter: blur(6px);
+      }
+      40% {
+        opacity: 0.6;
+        filter: blur(3px);
       }
       100% {
         transform: translateX(-50%) translateY(0px) scale(1) rotate(720deg);
         opacity: 1;
+        filter: blur(0);
       }
     }
 
