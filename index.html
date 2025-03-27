@@ -93,6 +93,40 @@
       }
     }
 
+    .card-glow {
+      position: absolute;
+      bottom: 180px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 320px;
+      height: 320px;
+      background: radial-gradient(circle, rgba(255,255,255,0.6) 0%, rgba(255,255,255,0) 70%);
+      border-radius: 50%;
+      opacity: 0;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+.card-glow.active {
+      animation: glowPulse 1s ease forwards;
+    }
+
+@keyframes glowPulse {
+  0% {
+    transform: translateX(-50%) scale(0.8);
+    opacity: 0;
+  }
+  50% {
+    transform: translateX(-50%) scale(1.2);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateX(-50%) scale(1);
+    opacity: 0;
+  }
+}
+
+
     .btn {
       margin: 10px auto;
       padding: 12px 24px;
@@ -181,6 +215,7 @@
 
   <div class="container">
     <div class="draw-area">
+      <div class="card-glow"></div><!-- ✨发光层，放在卡片后面 -->
       <img id="cardImage" class="floating-card" src="" alt="Card" />
       <img class="card-box" src="cards/card-box.png" alt="Card Box" />
     </div>
@@ -215,6 +250,12 @@
         audio.currentTime = 0; // 重置时间
         audio.play();
       }
+
+      // ✅ 光圈动画
+      const glow = document.querySelector(".card-glow");
+      glow.classList.remove("active");
+      void glow.offsetWidth; // 触发重绘
+      glow.classList.add("active");
 
       // ✅ ⬇️ 让盒子区域拉高显示动画
       document.querySelector('.draw-area').style.height = "550px";
