@@ -114,6 +114,8 @@
     .share-button {
         margin-top: 8px;
         padding: 6px 12px;
+        margin: 10px auto 6px;
+        display: inline-block;
         font-size: 14px;
         background-color: #7E3285;
         color: white;
@@ -214,8 +216,8 @@
         time.textContent = formatTime(entry.time);
 
         record.appendChild(img);
-        record.appendChild(time);
         record.appendChild(shareBtn);
+        record.appendChild(time);
         container.appendChild(record);
       });
     }
