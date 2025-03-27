@@ -109,7 +109,7 @@
       transition: opacity 0.3s ease;
     }
 
-.card-glow.active {
+  .card-glow.active {
       animation: glowPulse 1s ease forwards;
     }
 
@@ -139,15 +139,19 @@
     filter: drop-shadow(0 0 4px rgba(255, 255, 100, 0.8));
 }
 
-.particle {
+  .particle {
     position: absolute;
-    width: 12px;
-    height: 12px;
-    background: gold;
-    border-radius: 50%;
-    opacity: 0.9;
-    animation: fly 1.2s ease-out forwards;
-  }
+    width: 20px;
+    height: 20px;
+    background-image: url('data:image/svg+xml;utf8,<svg fill="gold" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><polygon points="12,2 15,9 22,9 17,14 19,21 12,17 5,21 7,14 2,9 9,9"/></svg>');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity: 1;
+    animation: fly 1.4s ease-out forwards;
+    filter: drop-shadow(0 0 6px rgba(255, 223, 0, 0.8));
+}
+
 
 @keyframes fly {
     0% {
@@ -296,13 +300,9 @@
       const particlesContainer = document.querySelector('.particles');
           const colors = ['#FFD700', '#FF69B4', '#87CEFA', '#ADFF2F', '#FFA500', '#EE82EE'];
 
-    for (let i = 0; i < 12; i++) {
+          for (let i = 0; i < 12; i++) {
       const particle = document.createElement('div');
       particle.className = 'particle';
-
-      // 🌈 随机设置粒子颜色
-      const randomColor = colors[Math.floor(Math.random() * colors.length)];
-      particle.style.background = randomColor;
 
       const angle = Math.random() * 2 * Math.PI;
       const distance = 80 + Math.random() * 80;
@@ -314,9 +314,8 @@
 
       particlesContainer.appendChild(particle);
 
-      setTimeout(() => particle.remove(), 1200);
+      setTimeout(() => particle.remove(), 1400);
     }
-
 
       // ✅ ⬇️ 让盒子区域拉高显示动画
       document.querySelector('.draw-area').style.height = "550px";
