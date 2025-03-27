@@ -2,124 +2,151 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>All Card Draw Records</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Card Draw History</title>
   <style>
     body {
       font-family: sans-serif;
-      background-color: #f2f6fc;
-      text-align: center;
+      background-color: #ccbdf2;
       padding: 2rem 1rem;
+      text-align: center;
     }
 
     h1 {
-      margin-bottom: 1.5rem;
+      font-size: 2rem;
       color: #47034E;
+      margin-bottom: 1rem;
     }
 
-    #fullHistory {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-      gap: 20px;
-      justify-items: center;
-      padding: 0 1rem;
+    .history-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 16px;
+      padding: 1rem;
     }
 
     .record {
-      background-color: transparent;
-      padding: 10px;
-      border-radius: 8px;
-      box-shadow: none;
-      text-align: center;
-      width: 100%;
-      max-width: 180px;
+      background: transparent;
+      padding: 0.5rem;
+      border-radius: 12px;
+      max-width: 200px;
     }
 
     .record img {
       width: 100%;
-      height: auto;
-      border-radius: 6px;
-  
+      border-radius: 12px;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     }
 
     .timestamp {
-      font-size: 13px;
-      color: #555;
+      font-size: 14px;
+      color: #333;
       margin-top: 6px;
     }
 
-    .back-link {
-      margin-top: 40px;
-      font-size: 14px;
+    /* 🌟 模态预览样式 */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
     }
 
-    .back-link a {
-      color: #9f5ea5;
-      text-decoration: none;
+    .modal-image {
+      max-width: 90%;
+      max-height: 80%;
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+      animation: zoomIn 0.3s ease;
     }
 
-    .back-link a:hover {
-      text-decoration: underline;
+    @keyframes zoomIn {
+      from {
+        transform: scale(0.6);
+        opacity: 0;
+      }
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .record {
+        max-width: 46%;
+      }
+
+      .timestamp {
+        font-size: 12px;
+      }
     }
   </style>
 </head>
 <body>
+  <h1>Your Card Draw History</h1>
+  <div id="fullHistory" class="history-grid"></div>
 
-  <h1>All Card Draw Records</h1>
-
-  <!-- ✅ 卡片展示区域 -->
-  <div id="fullHistory"></div>
-
-  <!-- 🔙 返回按钮 -->
-  <div class="back-link">
-    <a href="index.html">← Back to Draw Page</a>
+  <!-- 🌟 模态层 -->
+  <div id="modalOverlay" class="modal-overlay" onclick="closeModal()">
+    <img id="modalImage" class="modal-image" src="" alt="Card Preview" />
   </div>
 
   <script>
     function formatTime(isoString) {
-      if (!isoString) return "Unknown time";
       const date = new Date(isoString);
-      const y = date.getFullYear();
-      const m = String(date.getMonth() + 1).padStart(2, "0");
-      const d = String(date.getDate()).padStart(2, "0");
-      const h = String(date.getHours()).padStart(2, "0");
-      const min = String(date.getMinutes()).padStart(2, "0");
-      return `${y}-${m}-${d} ${h}:${min}`;
+      return date.toLocaleString([], {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+      });
     }
 
-    function renderFullHistory() {
+    function showModal(src) {
+      const modal = document.getElementById("modalOverlay");
+      const modalImg = document.getElementById("modalImage");
+      modalImg.src = src;
+      modal.style.display = "flex";
+    }
+
+    function closeModal() {
+      document.getElementById("modalOverlay").style.display = "none";
+    }
+
+    function loadHistory() {
       const history = JSON.parse(localStorage.getItem("cardHistory")) || [];
-      const fullDiv = document.getElementById("fullHistory");
-      fullDiv.innerHTML = "";
+      const container = document.getElementById("fullHistory");
+      container.innerHTML = "";
 
-      if (history.length === 0) {
-        fullDiv.innerHTML = "<p>No cards drawn yet.</p>";
-        return;
-      }
-
-      const reversed = history.slice().reverse();
-
-      reversed.forEach((entry) => {
-        if (!entry || !entry.num) return;
-
-        const div = document.createElement("div");
-        div.className = "record";
+      history.reverse().forEach((entry) => {
+        const record = document.createElement("div");
+        record.className = "record";
 
         const img = document.createElement("img");
         img.src = `cards/card-${entry.num}.png`;
         img.alt = `Card ${entry.num}`;
+        img.onclick = () => showModal(img.src);
 
         const time = document.createElement("div");
         time.className = "timestamp";
         time.textContent = formatTime(entry.time);
 
-        div.appendChild(img);
-        div.appendChild(time);
-        fullDiv.appendChild(div);
+        record.appendChild(img);
+        record.appendChild(time);
+        container.appendChild(record);
       });
     }
 
-    renderFullHistory();
+    window.onload = loadHistory;
   </script>
-
 </body>
 </html>
