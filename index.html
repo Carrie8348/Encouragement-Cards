@@ -95,16 +95,18 @@
 
     .card-glow {
       position: absolute;
-      bottom: 180px;
+      bottom: 150px;
       left: 50%;
       transform: translateX(-50%);
-      width: 320px;
-      height: 320px;
-      background: radial-gradient(circle, rgba(255,255,255,0.6) 0%, rgba(255,255,255,0) 70%);
+      width: 360px;
+      height: 360px;
+      background: radial-gradient(circle, rgba(255, 215, 0, 0.4) 0%, rgba(255, 255, 255, 0) 70%);
       border-radius: 50%;
       opacity: 0;
       z-index: 1;
       pointer-events: none;
+      filter: blur(12px); /* ✨模糊发光效果 */
+      transition: opacity 0.3s ease;
     }
 
 .card-glow.active {
@@ -112,19 +114,19 @@
     }
 
 @keyframes glowPulse {
-  0% {
-    transform: translateX(-50%) scale(0.8);
-    opacity: 0;
+    0% {
+      transform: translateX(-50%) scale(0.6);
+      opacity: 0;
+    }
+    50% {
+      transform: translateX(-50%) scale(1.3);
+      opacity: 0.9;
+    }
+    100% {
+      transform: translateX(-50%) scale(1);
+      opacity: 0;
+    }
   }
-  50% {
-    transform: translateX(-50%) scale(1.2);
-    opacity: 0.8;
-  }
-  100% {
-    transform: translateX(-50%) scale(1);
-    opacity: 0;
-  }
-}
 
 
     .btn {
