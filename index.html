@@ -272,81 +272,86 @@
 
   <script>
     function drawCard() {
-      const totalCards = 102;
-      const randomNum = Math.floor(Math.random() * totalCards) + 1;
-      const imageUrl = `cards/card-${randomNum}.png`;
-
-      const card = document.getElementById("cardImage");
-      card.src = imageUrl;
-      card.style.display = "block";
-      card.classList.remove("animate");
-      void card.offsetWidth;
-      card.classList.add("animate");
-
-      // ✅ 播放音效
-      const audio = document.getElementById("drawSound");
-      if (audio) {
-        audio.currentTime = 0; // 重置时间
-        audio.play();
-      }
-
-      // ✅ 光圈动画
-      const glow = document.querySelector(".card-glow");
-      glow.classList.remove("active");
-      void glow.offsetWidth; // 触发重绘
-      glow.classList.add("active");
-
-      // ✨ 生成星星粒子
-      const particlesContainer = document.querySelector('.particles');
-          const colors = ['#FFD700', '#FF69B4', '#87CEFA', '#ADFF2F', '#FFA500', '#EE82EE'];
-
-          for (let i = 0; i < 12; i++) {
+    const totalCards = 102;
+    const randomNum = Math.floor(Math.random() * totalCards) + 1;
+    const imageUrl = `cards/card-${randomNum}.png`;
+  
+    const now = new Date();
+    const timestamp = now.toISOString(); // ✅ 标准时间戳
+  
+    // 显示卡片
+    const card = document.getElementById("cardImage");
+    card.src = imageUrl;
+    card.style.display = "block";
+    card.classList.remove("animate");
+    void card.offsetWidth;
+    card.classList.add("animate");
+  
+    // ✅ 播放音效
+    const audio = document.getElementById("drawSound");
+    if (audio) {
+      audio.currentTime = 0;
+      audio.play();
+    }
+  
+    // ✅ 光圈动画
+    const glow = document.querySelector(".card-glow");
+    glow.classList.remove("active");
+    void glow.offsetWidth;
+    glow.classList.add("active");
+  
+    // ✅ 星星粒子动画
+    const particlesContainer = document.querySelector('.particles');
+    const colors = ['#FFD700', '#FF69B4', '#87CEFA', '#ADFF2F', '#FFA500', '#EE82EE'];
+  
+    for (let i = 0; i < 12; i++) {
       const particle = document.createElement('div');
       particle.className = 'particle';
-
+  
+      const randomColor = colors[Math.floor(Math.random() * colors.length)];
+      particle.style.background = randomColor;
+  
       const angle = Math.random() * 2 * Math.PI;
       const distance = 80 + Math.random() * 80;
       const x = Math.cos(angle) * distance + 'px';
       const y = Math.sin(angle) * distance + 'px';
-
+  
       particle.style.setProperty('--x', x);
       particle.style.setProperty('--y', y);
-
+  
       particlesContainer.appendChild(particle);
-
       setTimeout(() => particle.remove(), 1400);
     }
+  
+    // ✅ 拉高 draw-area 以容纳动画
+    document.querySelector('.draw-area').style.height = "550px";
+  
+    // ✅ 存储历史记录
+    let history = JSON.parse(localStorage.getItem("cardHistory")) || [];
+    history.push({ num: randomNum, time: timestamp });
+    localStorage.setItem("cardHistory", JSON.stringify(history));
+  
+    renderHistory();
+  }
+  
+  function renderHistory() {
+    const history = JSON.parse(localStorage.getItem("cardHistory")) || [];
+    const historyList = document.getElementById("historyList");
+    historyList.innerHTML = "";
+  
+    const recent = history.slice(-5).reverse();
+    recent.forEach((entry) => {
+      if (entry && entry.num) {
+        const img = document.createElement("img");
+        img.src = `cards/card-${entry.num}.png`;
+        img.alt = `Card ${entry.num}`;
+        historyList.appendChild(img);
+      }
+    });
+  }
+  
+  window.onload = renderHistory;
 
-      // ✅ ⬇️ 让盒子区域拉高显示动画
-      document.querySelector('.draw-area').style.height = "550px";
-
-      const now = new Date();
-      const timestamp = now.toISOString();
-
-      let history = JSON.parse(localStorage.getItem("cardHistory")) || [];
-      history.push({ num: randomNum, time: timestamp });
-      localStorage.setItem("cardHistory", JSON.stringify(history));
-
-      renderHistory();
-    }
-
-    function renderHistory() {
-      const history = JSON.parse(localStorage.getItem("cardHistory")) || [];
-      const historyList = document.getElementById("historyList");
-      historyList.innerHTML = "";
-
-      const recent = history.slice(-5).reverse();
-      recent.forEach((entry) => {
-        if (entry && entry.num) {
-          const img = document.createElement("img");
-          img.src = `cards/card-${entry.num}.png`;
-          img.alt = `Card ${entry.num}`;
-          historyList.appendChild(img);
-        }
-      });
-    }
-
-    window.onload = renderHistory;
   </script>
 
   <audio id="drawSound" src="sounds/ding.mp3" preload="auto"></audio>
