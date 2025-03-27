@@ -153,7 +153,7 @@
         const img = document.createElement("img");
         img.src = `cards/card-${entry.num}.png`;
         img.alt = `Card ${entry.num}`;
-        img.onclick = () => showModal(img.src);
+        img.onclick = () => showModal(img.src, entry.time);
 
         const time = document.createElement("div");
         time.className = "timestamp";
