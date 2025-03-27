@@ -3,53 +3,45 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Encouragement Card Draw</title>
+  <title>Encouragement Card</title>
   <style>
     body {
+      margin: 0;
       font-family: sans-serif;
       background-color: #ccbdf2;
-      text-align: center;
-      padding: 2rem 1rem;
     }
 
+    /* ✅ HEADER 区域 包裹标题 */
     .header {
-      padding: 1rem 0 0 1.2rem; /* 顶部空间 + 左对齐 */
-      text-align: left;
-    }
-
-
-    h1 {
-      margin-bottom: 1rem;
-      color: #47034E;
+      padding: 1rem 1.5rem;
     }
 
     .rainbow-title {
-      font-size: 2.2rem;
+      font-size: 2rem;
       font-weight: bold;
       background: white;
       display: inline-block;
       padding: 0.6rem 1.2rem;
-      border-radius: 1.2rem;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-      margin: 0;
+      border-radius: 1rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
       white-space: nowrap;
-    } 
+    }
 
-    .rainbow-title .line {
-      white-space: nowrap;
-      text-align: left;
+    .rainbow-title span {
+      font-weight: bold;
     }
 
     .container {
-      max-width: 800px;
+      max-width: 900px;
       margin: 0 auto;
+      padding: 1rem;
+      text-align: center;
     }
 
     .draw-area {
       position: relative;
-      height: 280px;
-      margin-top: 2rem;/* 让出空间，避免卡片重叠标题 */
-      margin-bottom: 2rem;
+      margin-top: 40px; /* ✅ 让出空间 */
+      height: 550px;
     }
 
     .card-box {
@@ -58,7 +50,6 @@
       left: 50%;
       transform: translateX(-50%);
       width: 300px;
-      height: auto;
       z-index: 1;
     }
 
@@ -67,13 +58,10 @@
       bottom: 180px;
       left: 50%;
       transform: translateX(-50%) translateY(0);
-      width: auto;
-      height: auto;
       max-width: 90%;
       max-height: 400px;
       display: none;
       z-index: 2;
-      opacity: 1;
     }
 
     .animate {
@@ -96,49 +84,43 @@
     }
 
     .btn {
-      margin: 10px auto;
-      padding: 16px 32px;
-      font-size: 20px;
-      border-radius: 10px;
+      margin-top: 20px;
+      padding: 14px 32px;
+      font-size: 18px;
       border: none;
-      background: linear-gradient(135deg, #ff6ec4, #7873f5);
+      border-radius: 10px;
       color: white;
+      background: linear-gradient(90deg, #c850c0, #4158d0);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
       cursor: pointer;
-      display: inline-block;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-      transition: transform 0.2s ease;
+      transition: transform 0.2s, box-shadow 0.2s;
     }
 
     .btn:hover {
       transform: scale(1.05);
     }
 
-    .history {
-      margin-top: 40px;
-    }
-
-    .history h2 {
-      margin-bottom: 10px;
+    h2 {
       color: #47034E;
+      margin-top: 3rem;
     }
 
     .history-list {
       display: flex;
       justify-content: center;
-      flex-wrap: wrap;
       gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 10px;
     }
 
-    .history img {
+    .history-list img {
       width: 100px;
-      height: auto;
-      object-fit: contain;
-      border-radius: 6px;
+      border-radius: 8px;
       cursor: pointer;
     }
 
     .more-link {
-      margin-top: 10px;
+      margin-top: 12px;
       font-size: 14px;
     }
 
@@ -147,66 +129,15 @@
       text-decoration: none;
     }
 
-    .modal-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.7);
-      display: none;
-      justify-content: center;
-      align-items: center;
-      z-index: 1000;
-    }
-
-    .modal-content {
-      text-align: center;
-    }
-
-    .modal-image {
-      max-width: 90%;
-      max-height: 80%;
-      border-radius: 16px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
-      animation: zoomIn 0.3s ease;
-    }
-
-    .modal-time {
-      color: white;
-      font-size: 16px;
-      margin-top: 12px;
-    }
-
-    .modal-share-button {
-      margin-top: 14px;
-      padding: 8px 18px;
-      font-size: 15px;
-      background-color: #7E3285;
-      color: white;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-
-    .modal-share-button:hover {
-      background-color: #5D0565;
-    }
-
-    @keyframes zoomIn {
-      from {
-        transform: scale(0.6);
-        opacity: 0;
-      }
-      to {
-        transform: scale(1);
-        opacity: 1;
+    @media (max-width: 600px) {
+      .rainbow-title {
+        font-size: 5vw;
       }
     }
   </style>
 </head>
 <body>
+  <!-- ✅ 包裹 header 的容器 -->
   <div class="header">
     <h1 class="rainbow-title">
       <span style="color:#F94144">E</span>
@@ -247,65 +178,11 @@
     </div>
   </div>
 
-  <!-- Modal -->
-  <div id="modalOverlay" class="modal-overlay">
-    <div class="modal-content">
-      <img id="modalImage" class="modal-image" src="" alt="Card Preview" />
-      <div id="modalTime" class="modal-time"></div>
-      <button id="shareModalBtn" class="modal-share-button">Share</button>
-    </div>
-  </div>
-
   <script>
-    function formatTime(isoString) {
-      const date = new Date(isoString);
-      return date.toLocaleString([], {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-        hour: '2-digit',
-        minute: '2-digit'
-      });
-    }
-
-    function showModal(src, timestamp) {
-      const modal = document.getElementById("modalOverlay");
-      const modalImg = document.getElementById("modalImage");
-      const modalTime = document.getElementById("modalTime");
-      const shareBtn = document.getElementById("shareModalBtn");
-
-      modalImg.src = src;
-      modalTime.textContent = formatTime(timestamp);
-      modal.style.display = "flex";
-
-      shareBtn.onclick = () => {
-        if (navigator.share) {
-          navigator.share({
-            title: "My Encouragement Card",
-            text: "I just drew this card!",
-            url: src
-          });
-        } else {
-          alert("Sharing not supported on this device.");
-        }
-      };
-    }
-
-    document.addEventListener('DOMContentLoaded', () => {
-      const overlay = document.getElementById("modalOverlay");
-      overlay.addEventListener('click', function (e) {
-        if (e.target === overlay) {
-          overlay.style.display = "none";
-        }
-      });
-    });
-
     function drawCard() {
       const totalCards = 102;
       const randomNum = Math.floor(Math.random() * totalCards) + 1;
       const imageUrl = `cards/card-${randomNum}.png`;
-      const now = new Date();
-      const timestamp = now.toISOString();
 
       const card = document.getElementById("cardImage");
       card.src = imageUrl;
@@ -313,8 +190,9 @@
       card.classList.remove("animate");
       void card.offsetWidth;
       card.classList.add("animate");
-      document.querySelector(".card-box").scrollIntoView({ behavior: "smooth", block: "center" });
 
+      const now = new Date();
+      const timestamp = now.toISOString();
 
       let history = JSON.parse(localStorage.getItem("cardHistory")) || [];
       history.push({ num: randomNum, time: timestamp });
@@ -334,7 +212,6 @@
           const img = document.createElement("img");
           img.src = `cards/card-${entry.num}.png`;
           img.alt = `Card ${entry.num}`;
-          img.onclick = () => showModal(img.src, entry.time);
           historyList.appendChild(img);
         }
       });
@@ -342,7 +219,5 @@
 
     window.onload = renderHistory;
   </script>
-
-  <audio id="drawSound" src="sounds/ding.mp3" preload="auto"></audio>
 </body>
 </html>
