@@ -128,16 +128,16 @@
     }
   }
 
-  .particles {
+  .particle {
     position: absolute;
-    bottom: 180px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 0;
-    height: 0;
-    z-index: 3;
-    pointer-events: none;
-  }
+    width: 16px;
+    height: 16px;
+    background: radial-gradient(circle, gold 0%, orange 70%, transparent 100%);
+    border-radius: 50%;
+    opacity: 1;
+    animation: fly 1.2s ease-out forwards;
+    filter: drop-shadow(0 0 4px rgba(255, 255, 100, 0.8));
+}
 
 .particle {
     position: absolute;
@@ -146,7 +146,7 @@
     background: gold;
     border-radius: 50%;
     opacity: 0.9;
-    animation: fly 1s ease-out forwards;
+    animation: fly 1.2s ease-out forwards;
   }
 
 @keyframes fly {
@@ -294,22 +294,29 @@
 
       // ✨ 生成星星粒子
       const particlesContainer = document.querySelector('.particles');
-      for (let i = 0; i < 12; i++) {
-        const particle = document.createElement('div');
-        particle.className = 'particle';
-      
-        const angle = Math.random() * 2 * Math.PI;
-        const distance = 60 + Math.random() * 40;
-        const x = Math.cos(angle) * distance + 'px';
-        const y = Math.sin(angle) * distance + 'px';
+          const colors = ['#FFD700', '#FF69B4', '#87CEFA', '#ADFF2F', '#FFA500', '#EE82EE'];
 
-        particle.style.setProperty('--x', x);
-        particle.style.setProperty('--y', y);
+    for (let i = 0; i < 12; i++) {
+      const particle = document.createElement('div');
+      particle.className = 'particle';
 
-        particlesContainer.appendChild(particle);
+      // 🌈 随机设置粒子颜色
+      const randomColor = colors[Math.floor(Math.random() * colors.length)];
+      particle.style.background = randomColor;
 
-        setTimeout(() => particle.remove(), 1000);
-      }
+      const angle = Math.random() * 2 * Math.PI;
+      const distance = 80 + Math.random() * 80;
+      const x = Math.cos(angle) * distance + 'px';
+      const y = Math.sin(angle) * distance + 'px';
+
+      particle.style.setProperty('--x', x);
+      particle.style.setProperty('--y', y);
+
+      particlesContainer.appendChild(particle);
+
+      setTimeout(() => particle.remove(), 1200);
+    }
+
 
       // ✅ ⬇️ 让盒子区域拉高显示动画
       document.querySelector('.draw-area').style.height = "550px";
