@@ -95,9 +95,9 @@
   <div id="fullHistory" class="history-grid"></div>
 
   <!-- 🌟 模态层 -->
-  <div id="modalOverlay" class="modal-overlay" onclick="closeModal()">
+  <div id="modalOverlay" class="modal-overlay">
     <img id="modalImage" class="modal-image" src="" alt="Card Preview" />
-  </div>
+  </div>  
 
   <script>
     function formatTime(isoString) {
@@ -121,6 +121,18 @@
     function closeModal() {
       document.getElementById("modalOverlay").style.display = "none";
     }
+
+    // 监听点击模态背景关闭
+      document.addEventListener('DOMContentLoaded', () => {
+        const overlay = document.getElementById("modalOverlay");
+        overlay.addEventListener('click', function (e) {
+          // 只有点击背景才关闭，点击图片不关闭
+          if (e.target === overlay) {
+            closeModal();
+          }
+        });
+      });
+
 
     function loadHistory() {
       const history = JSON.parse(localStorage.getItem("cardHistory")) || [];
