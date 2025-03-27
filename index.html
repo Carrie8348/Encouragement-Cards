@@ -209,8 +209,15 @@
       void card.offsetWidth;
       card.classList.add("animate");
 
+      // ✅ 播放音效
+      const audio = document.getElementById("drawSound");
+      if (audio) {
+        audio.currentTime = 0; // 重置时间
+        audio.play();
+      }
+
       // ✅ ⬇️ 让盒子区域拉高显示动画
-  document.querySelector('.draw-area').style.height = "550px";
+      document.querySelector('.draw-area').style.height = "550px";
 
       const now = new Date();
       const timestamp = now.toISOString();
@@ -240,6 +247,9 @@
 
     window.onload = renderHistory;
   </script>
+
+  <audio id="drawSound" src="sounds/ding.mp3" preload="auto"></audio>
+
 
 </body>
 </html>
