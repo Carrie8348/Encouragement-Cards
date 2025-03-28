@@ -38,9 +38,13 @@
     }
 
     .draw-area {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 350px;
       position: relative;
-      height: 350px; /* 初始更紧凑 */
-      transition: height 0.5s ease; /* 平滑过渡 */
+      transition: height 0.4s ease;
     }
 
     .floating-card {
@@ -74,8 +78,6 @@
         filter: blur(0);
       }
     }
-
-
 
     .btn {
       margin-top: 20px;
@@ -123,98 +125,21 @@
       text-decoration: none;
     }
 
-    .modal-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.7);
-      display: none;
-      justify-content: center;
-      align-items: center;
-      z-index: 1000;
-    }
-
-    .modal-content {
-      text-align: center;
-    }
-
-    .modal-image {
-      max-width: 90%;
-      max-height: 80%;
-      border-radius: 16px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
-      animation: zoomIn 0.3s ease;
-    }
-
-    .modal-time {
-      color: white;
-      font-size: 16px;
-      margin-top: 12px;
-    }
-
-    .modal-share-button {
-      margin-top: 14px;
-      padding: 8px 18px;
-      font-size: 15px;
-      background-color: #7E3285;
-      color: white;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-
-    .modal-share-button:hover {
-      background-color: #5D0565;
-    }
-
-    @keyframes zoomIn {
-      from {
-        transform: scale(0.6);
-        opacity: 0;
-      }
-      to {
-        transform: scale(1);
-        opacity: 1;
-      }
-    }
-
     @media (max-width: 600px) {
       .rainbow-title {
-        font-size: 4.5vw; /* 稍微小一点标题字 */
-      }
-
-      .header {
-        padding: 0.5rem 1rem; /* 减少顶部间距 */
+        font-size: 5vw;
       }
 
       .draw-area {
-        margin-top: 5px; /* 抽卡区域向上靠拢 */
+        height: 350px;
       }
 
       .btn {
         margin-top: 12px;
-        font-size: 16px;
-        padding: 12px 26px;
-      }
-
-      .history-list {
-        gap: 8px;
-      }
-
-      .history-list img {
-        width: 88px;
-      }
-
-      .more-link {
-        font-size: 16px;
-        margin-bottom: 2rem;
+        font-size: 20px;
+        padding: 16px 36px;
       }
     }
-
-    
   </style>
 </head>
 <body>
@@ -244,9 +169,8 @@
   <div class="container">
     <div class="draw-area">
       <img id="cardImage" class="floating-card" src="" alt="Card" />
+      <button class="btn" onclick="drawCard()">Draw a Card</button>
     </div>
-
-    <button class="btn" onclick="drawCard()">Draw a Card</button>
 
     <div class="history">
       <h2>Recent Draws</h2>
@@ -254,14 +178,6 @@
       <div class="more-link">
         <a href="history.html">View All Draws →</a>
       </div>
-    </div>
-  </div>
-
-  <div id="modalOverlay" class="modal-overlay">
-    <div class="modal-content">
-      <img id="modalImage" class="modal-image" src="" alt="Card Preview" />
-      <div id="modalTime" class="modal-time"></div>
-      <button id="shareModalBtn" class="modal-share-button">Share</button>
     </div>
   </div>
 
@@ -277,15 +193,9 @@
       card.classList.remove("animate");
       void card.offsetWidth;
       card.classList.add("animate");
-      document.querySelector('.draw-area').style.height = "550px";
 
-
-      // 播放音效
-      const audio = document.getElementById("drawSound");
-      if (audio) {
-        audio.currentTime = 0;
-        audio.play();
-      }
+      const drawArea = document.querySelector('.draw-area');
+      drawArea.style.height = '550px';
 
       const now = new Date();
       const timestamp = now.toISOString();
@@ -295,47 +205,6 @@
       localStorage.setItem("cardHistory", JSON.stringify(history));
 
       renderHistory();
-    }
-
-    function formatTime(isoString) {
-      const date = new Date(isoString);
-      return date.toLocaleString([], {
-        year: "numeric",
-        month: "2-digit",
-        day: "2-digit",
-        hour: "2-digit",
-        minute: "2-digit"
-      });
-    }
-
-    function showModal(src, timestamp) {
-      const modal = document.getElementById("modalOverlay");
-      const modalImg = document.getElementById("modalImage");
-      const modalTime = document.getElementById("modalTime");
-      const shareBtn = document.getElementById("shareModalBtn");
-
-      modalImg.src = src;
-      modalTime.textContent = formatTime(timestamp);
-      modal.style.display = "flex";
-
-      shareBtn.onclick = () => {
-        if (navigator.share) {
-          navigator.share({
-            title: "Encouragement Cards 🎁",
-            text:
-              "Check out this cool kid encouragement ticket! 🎁\n" +
-              "Encouragement Cards 👉 https://carrie8348.github.io/Encouragement-Cards/\n\n" +
-              "🖼️ Here's the one I drew:\n" + modalImg.src
-          });
-        } else {
-          alert("Sharing not supported on this device.");
-        }
-      };
-
-    }
-
-    function closeModal() {
-      document.getElementById("modalOverlay").style.display = "none";
     }
 
     function renderHistory() {
@@ -349,24 +218,12 @@
           const img = document.createElement("img");
           img.src = `cards/card-${entry.num}.png`;
           img.alt = `Card ${entry.num}`;
-          img.onclick = () => showModal(img.src, entry.time);
           historyList.appendChild(img);
         }
       });
     }
 
-    window.onload = () => {
-      renderHistory();
-
-      const overlay = document.getElementById("modalOverlay");
-      overlay.addEventListener("click", function (e) {
-        if (e.target === overlay) {
-          closeModal();
-        }
-      });
-    };
+    window.onload = renderHistory;
   </script>
-
-  <audio id="drawSound" src="sounds/ding.mp3" preload="auto"></audio>
 </body>
 </html>
