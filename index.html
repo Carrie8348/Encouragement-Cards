@@ -192,17 +192,37 @@
 
     @media (max-width: 600px) {
       .rainbow-title {
-        font-size: 5vw;
+        font-size: 4.5vw; /* 稍微小一点标题字 */
+      }
+
+      .header {
+        padding: 0.5rem 1rem; /* 减少顶部间距 */
       }
 
       .draw-area {
-        margin-top: 20px; /* 原来是 40px，可改成更小 */
+        margin-top: 10px; /* 抽卡区域向上靠拢 */
       }
 
       .btn {
-        margin-top: 12px; /* 可微调按钮和卡片间距 */
+        margin-top: 12px;
+        font-size: 16px;
+        padding: 12px 26px;
+      }
+
+      .history-list {
+        gap: 8px;
+      }
+
+      .history-list img {
+        width: 88px;
+      }
+
+      .more-link {
+        font-size: 16px;
+        margin-bottom: 2rem;
       }
     }
+
     
   </style>
 </head>
