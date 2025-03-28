@@ -38,20 +38,20 @@
     }
 
     .draw-area {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      height: 350px;
       position: relative;
+      margin-top: 40px;
+      height: auto;
       transition: height 0.4s ease;
     }
 
+    .card-box {
+      display: none;
+    }
+
     .floating-card {
-      position: absolute;
-      bottom: 180px;
-      left: 50%;
-      transform: translateX(-50%) translateY(0);
+      position: relative;
+      margin: 0 auto;
+      margin-bottom: 1.5rem;
       max-width: 90%;
       max-height: 400px;
       display: none;
@@ -59,12 +59,12 @@
     }
 
     .animate {
-      animation: floatFromBox 0.9s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+      animation: floatFromCenter 1s ease forwards;
     }
 
-    @keyframes floatFromBox {
+    @keyframes floatFromCenter {
       0% {
-        transform: translateX(-50%) translateY(150px) scale(0.2) rotate(0deg);
+        transform: scale(0.3) rotate(0deg);
         opacity: 0;
         filter: blur(6px);
       }
@@ -73,18 +73,18 @@
         filter: blur(3px);
       }
       100% {
-        transform: translateX(-50%) translateY(0px) scale(1) rotate(720deg);
+        transform: scale(1) rotate(720deg);
         opacity: 1;
         filter: blur(0);
       }
     }
 
     .btn {
-      margin-top: 20px;
-      padding: 14px 32px;
-      font-size: 18px;
+      margin-top: 30px;
+      padding: 18px 36px;
+      font-size: 20px;
       border: none;
-      border-radius: 10px;
+      border-radius: 12px;
       color: white;
       background: linear-gradient(90deg, #c850c0, #4158d0);
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
@@ -93,7 +93,7 @@
     }
 
     .btn:hover {
-      transform: scale(1.05);
+      transform: scale(1.08);
     }
 
     h2 {
@@ -130,14 +130,9 @@
         font-size: 5vw;
       }
 
-      .draw-area {
-        height: 350px;
-      }
-
       .btn {
-        margin-top: 12px;
-        font-size: 20px;
-        padding: 16px 36px;
+        padding: 14px 28px;
+        font-size: 18px;
       }
     }
   </style>
@@ -169,8 +164,9 @@
   <div class="container">
     <div class="draw-area">
       <img id="cardImage" class="floating-card" src="" alt="Card" />
-      <button class="btn" onclick="drawCard()">Draw a Card</button>
     </div>
+
+    <button class="btn" onclick="drawCard()">Draw a Card</button>
 
     <div class="history">
       <h2>Recent Draws</h2>
@@ -194,8 +190,15 @@
       void card.offsetWidth;
       card.classList.add("animate");
 
-      const drawArea = document.querySelector('.draw-area');
-      drawArea.style.height = '550px';
+      // ✅ 播放音效
+      const audio = document.getElementById("drawSound");
+      if (audio) {
+        audio.currentTime = 0;
+        audio.play();
+      }
+
+      // ✅ 自动扩展 draw-area
+      document.querySelector(".draw-area").style.height = "400px";
 
       const now = new Date();
       const timestamp = now.toISOString();
@@ -225,5 +228,7 @@
 
     window.onload = renderHistory;
   </script>
+
+  <audio id="drawSound" src="sounds/ding.mp3" preload="auto"></audio>
 </body>
 </html>
