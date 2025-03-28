@@ -39,8 +39,8 @@
 
     .draw-area {
       position: relative;
-      margin-top: 40px;
-      height: 350px;
+      height: 350px; /* 初始更紧凑 */
+      transition: height 0.5s ease; /* 平滑过渡 */
     }
 
     .floating-card {
@@ -277,6 +277,8 @@
       card.classList.remove("animate");
       void card.offsetWidth;
       card.classList.add("animate");
+      document.querySelector('.draw-area').style.height = "550px";
+
 
       // 播放音效
       const audio = document.getElementById("drawSound");
