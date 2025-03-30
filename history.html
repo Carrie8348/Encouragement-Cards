@@ -36,6 +36,7 @@
       border-radius: 16px;
       overflow: hidden;
       box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      background-color: #f0efdb;
     }
 
     .tab-container {
@@ -88,13 +89,13 @@
 
     .content-box {
       padding: 2rem;
-      border-radius: 0 0 16px 16px;
       min-height: 150px;
       margin: 0;
-      background-image: url("grid-paper.png");
-      background-size: 40px 40px;
       background-color: #ffffff;
-      background-blend-mode: multiply;
+      background-image: url("grid-paper.png");
+      background-size: cover;
+      background-repeat: repeat;
+      border-top: 3px solid #50bdf7;
     }
 
     .record-grid {
@@ -197,7 +198,8 @@
       const container = document.getElementById("recordDisplay");
       container.style.backgroundColor = "#ffffff";
       container.style.backgroundImage = "url('grid-paper.png')";
-      container.style.backgroundSize = "40px 40px";
+      container.style.backgroundSize = "cover";
+      container.style.backgroundRepeat = "repeat";
       container.style.backgroundBlendMode = "multiply";
 
       if (month === 0) {
