@@ -3,19 +3,17 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Card Draw History</title>
+  <title>Draw History by Month</title>
   <style>
     body {
+      margin: 0;
       font-family: sans-serif;
-      background-color: #ccbdf2;
-      padding: 2rem 1rem;
-      text-align: center;
+      background-color: #d4c4f0;
+      color: #47034E;
     }
 
     .back-button {
-      position: fixed;
-      top: 20px;
-      left: 20px;
+      margin: 16px;
       text-decoration: none;
       background-color: #7E3285;
       color: white;
@@ -23,206 +21,171 @@
       font-size: 16px;
       border-radius: 10px;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-      z-index: 9999;
-      transition: background-color 0.3s ease;
-    }
-
-    .back-button:hover {
-      background-color: #5D0565;
+      display: inline-block;
     }
 
     h1 {
-      font-size: 2rem;
-      color: #47034E;
-      margin-bottom: 1rem;
-    }
-
-    .history-grid {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 16px;
-      padding: 1rem;
-    }
-
-    .record {
-      background: transparent;
-      padding: 0.5rem;
-      border-radius: 12px;
-      max-width: 200px;
-    }
-
-    .record img {
-      width: 100%;
-      border-radius: 12px;
-      cursor: pointer;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    }
-
-    .timestamp {
-      font-size: 14px;
-      color: #333;
-      margin-top: 6px;
-    }
-
-    .modal-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.7);
-      display: none;
-      justify-content: center;
-      align-items: center;
-      z-index: 1000;
-    }
-
-    .modal-content {
       text-align: center;
+      font-size: 28px;
+      margin: 16px 0;
     }
 
-    .modal-image {
-      max-width: 90%;
-      max-height: 80%;
+    .folder {
+      background-color: #fff;
+      margin: 1rem;
       border-radius: 16px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
-      animation: zoomIn 0.3s ease;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      overflow-x: auto;
+      white-space: nowrap;
+      padding: 0;
     }
 
-    .modal-time {
-      color: white;
-      font-size: 16px;
-      margin-top: 12px;
+    .tab {
+      display: inline-block;
+      padding: 12px 18px;
+      margin: 0;
+      background-color: #f7ecff;
+      border: none;
+      font-size: 14px;
+      font-weight: bold;
+      color: #47034E;
+      border-radius: 8px 8px 0 0;
+      margin-right: 4px;
+      cursor: pointer;
+      transition: background 0.3s;
     }
 
-    .modal-share-button {
-      margin-top: 14px;
-      padding: 8px 18px;
-      font-size: 15px;
+    .tab.active {
       background-color: #7E3285;
       color: white;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
     }
 
-    .modal-share-button:hover {
-      background-color: #5D0565;
+    .content-box {
+      background: white;
+      padding: 2rem;
+      margin: 1rem;
+      border-radius: 16px;
+      min-height: 150px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
     }
 
-    @keyframes zoomIn {
-      from {
-        transform: scale(0.6);
-        opacity: 0;
-      }
-      to {
-        transform: scale(1);
-        opacity: 1;
-      }
+    .tab-container {
+      display: flex;
+      align-items: flex-end;
+      padding: 1rem;
+      overflow-x: auto;
+    }
+
+    .tab.cover-tab {
+      background-color: #50bdf7;
+      color: white;
+      font-size: 16px;
+      padding: 16px 22px;
+      border-radius: 12px 12px 0 0;
+      margin-right: 8px;
+    }
+
+    .record-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      justify-content: flex-start;
+    }
+
+    .record-grid .record-item {
+      width: 140px;
+      background: #fff;
+      padding: 8px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+      text-align: center;
+      font-size: 14px;
+      color: #47034E;
+    }
+
+    .record-grid .record-item img {
+      width: 100%;
+      margin-top: 6px;
+      border-radius: 8px;
     }
 
     @media (max-width: 600px) {
-      .record {
-        max-width: 46%;
+      h1 {
+        font-size: 22px;
       }
-
-      .timestamp {
+      .tab {
+        padding: 8px 14px;
         font-size: 12px;
+      }
+      .tab.cover-tab {
+        font-size: 14px;
+        padding: 12px 18px;
       }
     }
   </style>
 </head>
 <body>
   <a href="index.html" class="back-button">← Back</a>
-  <h1>Your Card Draw History</h1>
-  <div id="fullHistory" class="history-grid"></div>
+  <h1>Draw History by Month</h1>
 
-  <div id="modalOverlay" class="modal-overlay">
-    <div class="modal-content">
-      <img id="modalImage" class="modal-image" src="" alt="Card Preview" />
-      <div id="modalTime" class="modal-time"></div>
-      <button id="shareModalBtn" class="modal-share-button">Share</button>
+  <div class="folder">
+    <div class="tab-container">
+      <button class="tab cover-tab">2025</button>
+      <button class="tab" onclick="selectTab(1)">Jan</button>
+      <button class="tab" onclick="selectTab(2)">Feb</button>
+      <button class="tab" onclick="selectTab(3)">Mar</button>
+      <button class="tab" onclick="selectTab(4)">Apr</button>
+      <button class="tab" onclick="selectTab(5)">May</button>
+      <button class="tab" onclick="selectTab(6)">Jun</button>
+      <button class="tab" onclick="selectTab(7)">Jul</button>
+      <button class="tab" onclick="selectTab(8)">Aug</button>
+      <button class="tab" onclick="selectTab(9)">Sep</button>
+      <button class="tab" onclick="selectTab(10)">Oct</button>
+      <button class="tab" onclick="selectTab(11)">Nov</button>
+      <button class="tab" onclick="selectTab(12)">Dec</button>
     </div>
   </div>
 
+  <div id="recordDisplay" class="content-box">
+    <strong>Select a Month</strong>
+  </div>
+
   <script>
-    function formatTime(isoString) {
-      const date = new Date(isoString);
-      return date.toLocaleString([], {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-        hour: '2-digit',
-        minute: '2-digit'
-      });
-    }
-
-    function showModal(src, timestamp) {
-      const modal = document.getElementById("modalOverlay");
-      const modalImg = document.getElementById("modalImage");
-      const modalTime = document.getElementById("modalTime");
-      const shareBtn = document.getElementById("shareModalBtn");
-
-      modalImg.src = src;
-      modalTime.textContent = formatTime(timestamp);
-      modal.style.display = "flex";
-
-      shareBtn.onclick = () => {
-        if (navigator.share) {
-          navigator.share({
-            title: "Encouragement Cards 🎁",
-            text:
-              "Check out this cool kid encouragement ticket! 🎁\n" +
-              "Encouragement Cards 👉 https://carrie8348.github.io/Encouragement-Cards/\n\n" +
-              "🖼️ Here's the one I drew:\n" + modalImg.src
-          });
+    function selectTab(month) {
+      const tabs = document.querySelectorAll(".tab");
+      tabs.forEach((t, i) => {
+        if (i === month) {
+          t.classList.add("active");
         } else {
-          alert("Sharing not supported on this device.");
+          t.classList.remove("active");
         }
-      };
+      });
 
-    }
-
-    function closeModal() {
-      document.getElementById("modalOverlay").style.display = "none";
-    }
-
-    function loadHistory() {
       const history = JSON.parse(localStorage.getItem("cardHistory")) || [];
-      const container = document.getElementById("fullHistory");
-      container.innerHTML = "";
-
-      history.reverse().forEach((entry) => {
-        const record = document.createElement("div");
-        record.className = "record";
-
-        const img = document.createElement("img");
-        img.src = `cards/card-${entry.num}.png`;
-        img.alt = `Card ${entry.num}`;
-        img.onclick = () => showModal(img.src, entry.time);
-
-        const time = document.createElement("div");
-        time.className = "timestamp";
-        time.textContent = formatTime(entry.time);
-
-        record.appendChild(img);
-        record.appendChild(time);
-        container.appendChild(record);
+      const filtered = history.filter(entry => {
+        const date = new Date(entry.time);
+        return date.getMonth() + 1 === month && date.getFullYear() === 2025;
       });
+
+      const container = document.getElementById("recordDisplay");
+      if (filtered.length === 0) {
+        container.innerHTML = "<em>No records for this month.</em>";
+      } else {
+        container.innerHTML = `
+          <div class="record-grid">
+            ${filtered.map(entry => {
+              const formattedTime = new Date(entry.time).toLocaleString([], {
+                year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit'
+              });
+              return `<div class="record-item">
+                📌<br>${formattedTime}
+                <img src="cards/card-${entry.num}.png" />
+              </div>`;
+            }).join("")}
+          </div>
+        `;
+      }
     }
-
-    window.onload = loadHistory;
-
-    document.addEventListener('DOMContentLoaded', () => {
-      const overlay = document.getElementById("modalOverlay");
-      overlay.addEventListener('click', function (e) {
-        if (e.target === overlay) {
-          closeModal();
-        }
-      });
-    });
   </script>
 </body>
 </html>
