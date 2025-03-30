@@ -36,6 +36,7 @@
       border-radius: 16px;
       overflow: hidden;
       box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      position: relative;
     }
 
     .tab-container {
@@ -45,6 +46,17 @@
       padding: 0 1rem;
       background-color: #8475B0;
       border-bottom: none;
+      position: relative;
+    }
+
+    .tab-scroll-hint {
+      font-size: 14px;
+      position: absolute;
+      right: 8px;
+      bottom: 4px;
+      color: white;
+      opacity: 0.6;
+      pointer-events: none;
     }
 
     .tab {
@@ -196,6 +208,7 @@
       <button class="tab" onclick="selectTab(10)">Oct</button>
       <button class="tab" onclick="selectTab(11)">Nov</button>
       <button class="tab" onclick="selectTab(12)">Dec</button>
+      <div class="tab-scroll-hint">⇆</div>
     </div>
     <div id="recordDisplay" class="content-box"></div>
   </div>
