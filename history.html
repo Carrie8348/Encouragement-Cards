@@ -254,16 +254,16 @@
       if (filtered.length === 0) {
         container.innerHTML = "<em>No records for this month.</em>";
       } else {
-        container.innerHTML = `
-          <div class="record-grid">
-            ${filtered.map(entry => {
-              const formattedTime = new Date(entry.time).toLocaleString([], {
-                year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit'
-              });
-              return `<div class="record-item" onclick="showModal('cards/card-${entry.num}.png', \"${formattedTime}\")">📌<br>${formattedTime}<br><img src="cards/card-${entry.num}.png" /></div>`;
-            }).join("")}
-          </div>
-        `;
+        container.innerHTML = `<div class="record-grid">
+          ${filtered.map(entry => {
+            const formattedTime = new Date(entry.time).toLocaleString([], {
+              year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit'
+            });
+            return `<div class="record-item" onclick="showModal('cards/card-${entry.num}.png', \"${formattedTime}\")">
+              <img src="cards/card-${entry.num}.png" alt="Card ${entry.num}" />
+              <div>${formattedTime}</div>
+            </div>`;
+          }).join("")}</div>`;
       }
     }
 
