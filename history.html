@@ -32,32 +32,25 @@
 
     .folder {
       margin: 1rem;
-      border-radius: 16px 16px 0 0;
+      border-radius: 16px;
       box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-      overflow-x: auto;
-      white-space: nowrap;
-      padding: 0;
     }
 
     .tab-container {
       display: flex;
       align-items: flex-end;
-      padding: 0 1rem;
       overflow-x: auto;
-      background-color: #50bdf7;
-      border-radius: 16px 16px 0 0;
-      padding-top: 1rem;
+      padding: 0 1rem;
+      background-color: transparent;
     }
 
     .tab {
       display: inline-block;
       padding: 12px 18px;
-      margin: 0;
-      background-color: #f7ecff;
-      border: none;
       font-size: 14px;
       font-weight: bold;
       color: #47034E;
+      border: none;
       border-radius: 8px 8px 0 0;
       margin-right: 4px;
       cursor: pointer;
@@ -78,13 +71,26 @@
       margin-right: 8px;
     }
 
+    .tab:nth-child(2) { background-color: #b0e0e6; }
+    .tab:nth-child(3) { background-color: #a4d4ae; }
+    .tab:nth-child(4) { background-color: #9acd32; }
+    .tab:nth-child(5) { background-color: #ffdf73; }
+    .tab:nth-child(6) { background-color: #ffcc66; }
+    .tab:nth-child(7) { background-color: #ffb347; }
+    .tab:nth-child(8) { background-color: #ff7f50; }
+    .tab:nth-child(9) { background-color: #ff6f61; }
+    .tab:nth-child(10) { background-color: #ffa07a; }
+    .tab:nth-child(11) { background-color: #db7093; }
+    .tab:nth-child(12) { background-color: #ba55d3; }
+    .tab:nth-child(13) { background-color: #9370db; }
+
     .content-box {
       background: #50bdf7;
       padding: 2rem;
-      margin: 0 1rem 1rem 1rem;
       border-radius: 0 0 16px 16px;
       min-height: 150px;
       box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      margin: 0;
     }
 
     .record-grid {
