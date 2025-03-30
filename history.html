@@ -91,7 +91,7 @@
       min-height: 150px;
       margin: 0;
       background-color: #f0efdb;
-      background-image: url("grid-paper.png");
+      background-image: url("./grid-paper.png");
       background-size: 30px 30px;
       background-repeat: repeat;
       background-blend-mode: multiply;
@@ -217,7 +217,7 @@
 
       const container = document.getElementById("recordDisplay");
       container.style.backgroundColor = month === 0 ? "#8475B0" : "#f0efdb";
-      container.style.backgroundImage = month === 0 ? "none" : "url('grid-paper.png')";
+      container.style.backgroundImage = month === 0 ? "none" : "url('./grid-paper.png')";
       container.style.backgroundSize = "30px 30px";
       container.style.backgroundRepeat = "repeat";
       container.style.backgroundBlendMode = "multiply";
@@ -236,16 +236,24 @@
       if (filtered.length === 0) {
         container.innerHTML = "<em>No records for this month.</em>";
       } else {
-        container.innerHTML = `
-          <div class="record-grid">
-            ${filtered.map(entry => {
-              const formattedTime = new Date(entry.time).toLocaleString([], {
-                year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit'
-              });
-              return `<div class="record-item" onclick="showModal('cards/card-${entry.num}.png', \"${formattedTime}\")">📌<br>${formattedTime}<br><img src="cards/card-${entry.num}.png" /></div>`;
-            }).join("")}
-          </div>
-        `;
+        const html = document.createElement("div");
+        html.className = "record-grid";
+
+        filtered.forEach(entry => {
+          const formattedTime = new Date(entry.time).toLocaleString([], {
+            year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit'
+          });
+
+          const item = document.createElement("div");
+          item.className = "record-item";
+          item.innerHTML = `📌<br>${formattedTime}<br><img src="cards/card-${entry.num}.png" />`;
+          item.onclick = () => showModal(`cards/card-${entry.num}.png`, formattedTime);
+
+          html.appendChild(item);
+        });
+
+        container.innerHTML = "";
+        container.appendChild(html);
       }
     }
 
@@ -278,9 +286,9 @@
       }
     }
 
-    window.onload = () => {
+    window.addEventListener("DOMContentLoaded", () => {
       selectTab(0);
-    };
+    });
   </script>
 </body>
 </html>
