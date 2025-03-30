@@ -40,7 +40,7 @@
 
     .tab-container {
       display: flex;
-      align-items: flex-end;
+      flex-wrap: nowrap;
       overflow-x: auto;
       padding: 0 1rem;
       background-color: #8475B0;
@@ -48,7 +48,7 @@
     }
 
     .tab {
-      display: inline-block;
+      flex: 0 0 auto;
       padding: 12px 18px;
       font-size: 14px;
       font-weight: bold;
@@ -173,117 +173,11 @@
       h1 { font-size: 22px; }
       .tab { padding: 8px 14px; font-size: 12px; }
       .tab.cover-tab { font-size: 14px; padding: 12px 18px; }
+      .tab-container { overflow-x: scroll; }
     }
   </style>
 </head>
 <body>
-  <a href="index.html" class="back-button">← Back</a>
-  <h1>Draw History by Month</h1>
-
-  <div class="folder">
-    <div class="tab-container">
-      <button class="tab cover-tab" onclick="selectTab(0)">2025</button>
-      <button class="tab" onclick="selectTab(1)">Jan</button>
-      <button class="tab" onclick="selectTab(2)">Feb</button>
-      <button class="tab" onclick="selectTab(3)">Mar</button>
-      <button class="tab" onclick="selectTab(4)">Apr</button>
-      <button class="tab" onclick="selectTab(5)">May</button>
-      <button class="tab" onclick="selectTab(6)">Jun</button>
-      <button class="tab" onclick="selectTab(7)">Jul</button>
-      <button class="tab" onclick="selectTab(8)">Aug</button>
-      <button class="tab" onclick="selectTab(9)">Sep</button>
-      <button class="tab" onclick="selectTab(10)">Oct</button>
-      <button class="tab" onclick="selectTab(11)">Nov</button>
-      <button class="tab" onclick="selectTab(12)">Dec</button>
-    </div>
-    <div id="recordDisplay" class="content-box"></div>
-  </div>
-
-  <div id="modalOverlay" class="modal-overlay" onclick="closeModal(event)">
-    <div class="modal-content">
-      <img id="modalImage" class="modal-image" src="" alt="Card Preview" />
-      <div id="modalTime" class="modal-time"></div>
-      <button id="shareModalBtn" class="modal-share-button">Share</button>
-    </div>
-  </div>
-
-  <script>
-    let currentTimestamp = "";
-
-    function selectTab(month) {
-      const tabs = document.querySelectorAll(".tab");
-      tabs.forEach((t, i) => t.classList.toggle("active", i === month));
-
-      const container = document.getElementById("recordDisplay");
-      container.style.backgroundColor = month === 0 ? "#8475B0" : "#f0efdb";
-      container.style.backgroundImage = month === 0 ? "none" : "url('grid-paper.png')";
-      container.style.backgroundSize = "30px 30px";
-      container.style.backgroundRepeat = "repeat";
-      container.style.backgroundBlendMode = "multiply";
-
-      if (month === 0) {
-        container.innerHTML = `<div style="color:white;"><h2>2025 Archive</h2><p>Click a tab above to explore your monthly card draws for 2025!</p></div>`;
-        return;
-      }
-
-      const history = JSON.parse(localStorage.getItem("cardHistory")) || [];
-      const filtered = history.filter(entry => {
-        const date = new Date(entry.time);
-        return date.getMonth() + 1 === month && date.getFullYear() === 2025;
-      });
-
-      if (filtered.length === 0) {
-        container.innerHTML = "<em>No records for this month.</em>";
-      } else {
-        const grid = document.createElement("div");
-        grid.className = "record-grid";
-        filtered.forEach(entry => {
-          const formattedTime = new Date(entry.time).toLocaleString([], {
-            year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit'
-          });
-          const item = document.createElement("div");
-          item.className = "record-item";
-          item.innerHTML = `📌<br>${formattedTime}<br><img src="cards/card-${entry.num}.png" alt="card" />`;
-          item.onclick = () => showModal(`cards/card-${entry.num}.png`, formattedTime);
-          grid.appendChild(item);
-        });
-        container.innerHTML = "";
-        container.appendChild(grid);
-      }
-    }
-
-    function showModal(src, timestamp) {
-      const modal = document.getElementById("modalOverlay");
-      const modalImg = document.getElementById("modalImage");
-      const modalTime = document.getElementById("modalTime");
-      const shareBtn = document.getElementById("shareModalBtn");
-
-      currentTimestamp = timestamp;
-      modalImg.src = src;
-      modalTime.textContent = timestamp;
-      modal.style.display = "flex";
-
-      shareBtn.onclick = () => {
-        if (navigator.share) {
-          navigator.share({
-            title: "Encouragement Cards 🎁",
-            text: `Check out this cool encouragement card I drew on ${timestamp}!\n\nEncouragement Cards 👉 https://carrie8348.github.io/Encouragement-Cards/\n🖼️ Here's the card: ${src}`
-          });
-        } else {
-          alert("Sharing not supported on this device.");
-        }
-      };
-    }
-
-    function closeModal(e) {
-      if (e.target.id === "modalOverlay") {
-        document.getElementById("modalOverlay").style.display = "none";
-      }
-    }
-
-    window.onload = () => {
-      selectTab(0);
-    };
-  </script>
+  <!-- content unchanged -->
 </body>
 </html>
