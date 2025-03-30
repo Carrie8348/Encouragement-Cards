@@ -36,7 +36,6 @@
       border-radius: 16px;
       overflow: hidden;
       box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-      background-color: #f0efdb;
     }
 
     .tab-container {
@@ -91,10 +90,11 @@
       padding: 2rem;
       min-height: 150px;
       margin: 0;
-      background-color: #ffffff;
+      background-color: #f0efdb;
       background-image: url("grid-paper.png");
-      background-size: cover;
+      background-size: 150px auto;
       background-repeat: repeat;
+      background-blend-mode: multiply;
       border-top: 3px solid #50bdf7;
     }
 
@@ -196,9 +196,9 @@
       tabs.forEach((t, i) => t.classList.toggle("active", i === month));
 
       const container = document.getElementById("recordDisplay");
-      container.style.backgroundColor = "#ffffff";
-      container.style.backgroundImage = "url('grid-paper.png')";
-      container.style.backgroundSize = "cover";
+      container.style.backgroundColor = month === 0 ? "#50bdf7" : "#f0efdb";
+      container.style.backgroundImage = month === 0 ? "none" : "url('grid-paper.png')";
+      container.style.backgroundSize = "150px auto";
       container.style.backgroundRepeat = "repeat";
       container.style.backgroundBlendMode = "multiply";
 
