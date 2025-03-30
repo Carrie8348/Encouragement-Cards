@@ -15,7 +15,7 @@
     .back-button {
       margin: 16px;
       text-decoration: none;
-      background-color: #8475B0;
+      background-color: #4FBDF7;
       color: white;
       padding: 10px 16px;
       font-size: 16px;
@@ -92,7 +92,7 @@
       margin: 0;
       background-color: #f0efdb;
       background-image: url("grid-paper.png");
-      background-size: 150px auto;
+      background-size: 100px auto;
       background-repeat: repeat;
       background-blend-mode: multiply;
       border-top: 3px solid #8475B0;
@@ -137,6 +137,7 @@
 
     .modal-content {
       text-align: center;
+      color: white;
     }
 
     .modal-image {
@@ -145,6 +146,22 @@
       border-radius: 16px;
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
       animation: zoomIn 0.3s ease;
+    }
+
+    .modal-time {
+      margin-top: 12px;
+      font-size: 16px;
+    }
+
+    .modal-share-button {
+      margin-top: 14px;
+      padding: 8px 18px;
+      font-size: 15px;
+      background-color: #7E3285;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
     }
 
     @keyframes zoomIn {
@@ -187,10 +204,14 @@
   <div id="modalOverlay" class="modal-overlay" onclick="closeModal(event)">
     <div class="modal-content">
       <img id="modalImage" class="modal-image" src="" alt="Card Preview" />
+      <div id="modalTime" class="modal-time"></div>
+      <button id="shareModalBtn" class="modal-share-button">Share</button>
     </div>
   </div>
 
   <script>
+    let currentTimestamp = "";
+
     function selectTab(month) {
       const tabs = document.querySelectorAll(".tab");
       tabs.forEach((t, i) => t.classList.toggle("active", i === month));
@@ -198,7 +219,7 @@
       const container = document.getElementById("recordDisplay");
       container.style.backgroundColor = month === 0 ? "#8475B0" : "#f0efdb";
       container.style.backgroundImage = month === 0 ? "none" : "url('grid-paper.png')";
-      container.style.backgroundSize = "150px auto";
+      container.style.backgroundSize = "100px auto";
       container.style.backgroundRepeat = "repeat";
       container.style.backgroundBlendMode = "multiply";
 
@@ -222,18 +243,34 @@
               const formattedTime = new Date(entry.time).toLocaleString([], {
                 year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit'
               });
-              return `<div class="record-item" onclick=\"showModal('cards/card-${entry.num}.png')\">📌<br>${formattedTime}<br><img src="cards/card-${entry.num}.png" /></div>`;
+              return `<div class="record-item" onclick="showModal('cards/card-${entry.num}.png', \"${formattedTime}\")">📌<br>${formattedTime}<br><img src="cards/card-${entry.num}.png" /></div>`;
             }).join("")}
           </div>
         `;
       }
     }
 
-    function showModal(src) {
+    function showModal(src, timestamp) {
       const modal = document.getElementById("modalOverlay");
       const modalImg = document.getElementById("modalImage");
+      const modalTime = document.getElementById("modalTime");
+      const shareBtn = document.getElementById("shareModalBtn");
+
+      currentTimestamp = timestamp;
       modalImg.src = src;
+      modalTime.textContent = timestamp;
       modal.style.display = "flex";
+
+      shareBtn.onclick = () => {
+        if (navigator.share) {
+          navigator.share({
+            title: "Encouragement Cards 🎁",
+            text: `Check out this cool encouragement card I drew on ${timestamp}!\n\nEncouragement Cards 👉 https://carrie8348.github.io/Encouragement-Cards/\n🖼️ Here's the card: ${src}`
+          });
+        } else {
+          alert("Sharing not supported on this device.");
+        }
+      };
     }
 
     function closeModal(e) {
