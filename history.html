@@ -32,7 +32,8 @@
 
     .folder {
       margin: 1rem;
-      border-radius: 16px;
+      border-radius: 16px 16px 0 0;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
       overflow-x: auto;
       white-space: nowrap;
       padding: 0;
@@ -41,20 +42,24 @@
     .tab-container {
       display: flex;
       align-items: flex-end;
-      padding: 1rem;
+      padding: 0 1rem;
       overflow-x: auto;
-      gap: 6px;
+      background-color: #50bdf7;
+      border-radius: 16px 16px 0 0;
+      padding-top: 1rem;
     }
 
     .tab {
       display: inline-block;
       padding: 12px 18px;
+      margin: 0;
       background-color: #f7ecff;
       border: none;
       font-size: 14px;
       font-weight: bold;
       color: #47034E;
       border-radius: 8px 8px 0 0;
+      margin-right: 4px;
       cursor: pointer;
       transition: background 0.3s;
     }
@@ -65,32 +70,19 @@
     }
 
     .tab.cover-tab {
-      background-color: #009cf7;
+      background-color: #50bdf7;
       color: white;
       font-size: 16px;
       padding: 16px 22px;
-      border-radius: 14px 14px 0 0;
-      font-weight: bold;
+      border-radius: 12px 12px 0 0;
+      margin-right: 8px;
     }
 
-    .tab:nth-child(2) { background-color: #b2dfdb; }
-    .tab:nth-child(3) { background-color: #aed581; }
-    .tab:nth-child(4) { background-color: #81c784; }
-    .tab:nth-child(5) { background-color: #dce775; }
-    .tab:nth-child(6) { background-color: #fff176; }
-    .tab:nth-child(7) { background-color: #ffb74d; }
-    .tab:nth-child(8) { background-color: #ff8a65; }
-    .tab:nth-child(9) { background-color: #4fc3f7; }
-    .tab:nth-child(10) { background-color: #9575cd; }
-    .tab:nth-child(11) { background-color: #ba68c8; }
-    .tab:nth-child(12) { background-color: #f06292; }
-    .tab:nth-child(13) { background-color: #90a4ae; }
-
     .content-box {
-      background: white;
+      background: #50bdf7;
       padding: 2rem;
-      margin: 1rem;
-      border-radius: 16px;
+      margin: 0 1rem 1rem 1rem;
+      border-radius: 0 0 16px 16px;
       min-height: 150px;
       box-shadow: 0 8px 20px rgba(0,0,0,0.1);
     }
@@ -140,7 +132,7 @@
 
   <div class="folder">
     <div class="tab-container">
-      <button class="tab cover-tab" onclick="resetTab()">2025</button>
+      <button class="tab cover-tab" onclick="selectTab(0)">2025</button>
       <button class="tab" onclick="selectTab(1)">Jan</button>
       <button class="tab" onclick="selectTab(2)">Feb</button>
       <button class="tab" onclick="selectTab(3)">Mar</button>
@@ -154,25 +146,12 @@
       <button class="tab" onclick="selectTab(11)">Nov</button>
       <button class="tab" onclick="selectTab(12)">Dec</button>
     </div>
-  </div>
-
-  <div id="recordDisplay" class="content-box">
-    <strong>📁 2025 Card Archive</strong><br>
-    <p>This folder contains your draw history sorted by month. Click any tab above to explore!</p>
+    <div id="recordDisplay" class="content-box">
+      <strong>📁 Click a month to view records.</strong>
+    </div>
   </div>
 
   <script>
-    function resetTab() {
-      const tabs = document.querySelectorAll(".tab");
-      tabs.forEach(t => t.classList.remove("active"));
-
-      const container = document.getElementById("recordDisplay");
-      container.innerHTML = `
-        <strong>📁 2025 Card Archive</strong><br>
-        <p>This folder contains your draw history sorted by month. Click any tab above to explore!</p>
-      `;
-    }
-
     function selectTab(month) {
       const tabs = document.querySelectorAll(".tab");
       tabs.forEach((t, i) => {
@@ -183,13 +162,19 @@
         }
       });
 
+      const container = document.getElementById("recordDisplay");
+
+      if (month === 0) {
+        container.innerHTML = `<div style="color:white;"><h2>2025 Archive</h2><p>Click a tab above to explore your monthly card draws for 2025!</p></div>`;
+        return;
+      }
+
       const history = JSON.parse(localStorage.getItem("cardHistory")) || [];
       const filtered = history.filter(entry => {
         const date = new Date(entry.time);
         return date.getMonth() + 1 === month && date.getFullYear() === 2025;
       });
 
-      const container = document.getElementById("recordDisplay");
       if (filtered.length === 0) {
         container.innerHTML = "<em>No records for this month.</em>";
       } else {
