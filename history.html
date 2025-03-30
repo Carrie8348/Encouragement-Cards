@@ -36,7 +36,6 @@
       border-radius: 16px;
       overflow: hidden;
       box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-      background-color: #50bdf7;
     }
 
     .tab-container {
@@ -45,7 +44,7 @@
       overflow-x: auto;
       padding: 0 1rem;
       background-color: #50bdf7;
-      border-bottom: 4px solid #F0EFDB;
+      border-bottom: none;
     }
 
     .tab {
@@ -92,7 +91,10 @@
       border-radius: 0 0 16px 16px;
       min-height: 150px;
       margin: 0;
-      background-color: inherit;
+      background-image: url("grid-paper.png");
+      background-size: 40px 40px;
+      background-color: #ffffff;
+      background-blend-mode: multiply;
     }
 
     .record-grid {
@@ -188,16 +190,15 @@
   </div>
 
   <script>
-    const monthColors = [
-      '', '#b0e0e6', '#a4d4ae', '#9acd32', '#ffdf73', '#ffcc66', '#ffb347', '#ff7f50', '#ff6f61', '#ffa07a', '#db7093', '#ba55d3', '#9370db'
-    ];
-
     function selectTab(month) {
       const tabs = document.querySelectorAll(".tab");
       tabs.forEach((t, i) => t.classList.toggle("active", i === month));
 
       const container = document.getElementById("recordDisplay");
-      container.style.backgroundColor = monthColors[month] || '#50bdf7';
+      container.style.backgroundColor = "#ffffff";
+      container.style.backgroundImage = "url('grid-paper.png')";
+      container.style.backgroundSize = "40px 40px";
+      container.style.backgroundBlendMode = "multiply";
 
       if (month === 0) {
         container.innerHTML = `<div style="color:white;"><h2>2025 Archive</h2><p>Click a tab above to explore your monthly card draws for 2025!</p></div>`;
