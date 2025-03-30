@@ -92,7 +92,7 @@
       margin: 0;
       background-color: #f0efdb;
       background-image: url("grid-paper.png");
-      background-size: 60px auto;
+      background-size: 30px 30px;
       background-repeat: repeat;
       background-blend-mode: multiply;
       border-top: 3px solid #8475B0;
@@ -196,9 +196,7 @@
       <button class="tab" onclick="selectTab(11)">Nov</button>
       <button class="tab" onclick="selectTab(12)">Dec</button>
     </div>
-    <div id="recordDisplay" class="content-box">
-      <strong>📁 Click a month to view records.</strong>
-    </div>
+    <div id="recordDisplay" class="content-box"></div>
   </div>
 
   <div id="modalOverlay" class="modal-overlay" onclick="closeModal(event)">
@@ -219,7 +217,7 @@
       const container = document.getElementById("recordDisplay");
       container.style.backgroundColor = month === 0 ? "#8475B0" : "#f0efdb";
       container.style.backgroundImage = month === 0 ? "none" : "url('grid-paper.png')";
-      container.style.backgroundSize = "60px auto";
+      container.style.backgroundSize = "30px 30px";
       container.style.backgroundRepeat = "repeat";
       container.style.backgroundBlendMode = "multiply";
 
