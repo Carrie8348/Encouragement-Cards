@@ -8,7 +8,7 @@
     body {
       margin: 0;
       font-family: sans-serif;
-      background-color: #F2F1DD;
+      background-color: #F0EFDB;
       color: #47034E;
     }
 
@@ -58,7 +58,6 @@
     }
 
     .tab.active {
-      background-color: #7E3285;
       color: white;
     }
 
@@ -85,7 +84,6 @@
     .tab:nth-child(13) { background-color: #9370db; }
 
     .content-box {
-      background: #50bdf7;
       padding: 2rem;
       border-radius: 0 0 16px 16px;
       min-height: 150px;
@@ -185,11 +183,16 @@
   </div>
 
   <script>
+    const monthColors = [
+      '', '#b0e0e6', '#a4d4ae', '#9acd32', '#ffdf73', '#ffcc66', '#ffb347', '#ff7f50', '#ff6f61', '#ffa07a', '#db7093', '#ba55d3', '#9370db'
+    ];
+
     function selectTab(month) {
       const tabs = document.querySelectorAll(".tab");
       tabs.forEach((t, i) => t.classList.toggle("active", i === month));
 
       const container = document.getElementById("recordDisplay");
+      container.style.backgroundColor = monthColors[month] || '#50bdf7';
 
       if (month === 0) {
         container.innerHTML = `<div style="color:white;"><h2>2025 Archive</h2><p>Click a tab above to explore your monthly card draws for 2025!</p></div>`;
