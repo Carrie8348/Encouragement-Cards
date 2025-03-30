@@ -259,11 +259,19 @@
             const formattedTime = new Date(entry.time).toLocaleString([], {
               year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit'
             });
-            return `<div class="record-item" onclick="showModal('cards/card-${entry.num}.png', \"${formattedTime}\")">
+            return `<div class="record-item" data-img="cards/card-${entry.num}.png" data-time="${formattedTime}">
               <img src="cards/card-${entry.num}.png" alt="Card ${entry.num}" />
               <div>${formattedTime}</div>
             </div>`;
           }).join("")}</div>`;
+
+        document.querySelectorAll(".record-item").forEach(item => {
+          item.addEventListener("click", () => {
+            const img = item.getAttribute("data-img");
+            const time = item.getAttribute("data-time");
+            showModal(img, time);
+          });
+        });
       }
     }
 
@@ -273,7 +281,6 @@
       const modalTime = document.getElementById("modalTime");
       const shareBtn = document.getElementById("shareModalBtn");
 
-      currentTimestamp = timestamp;
       modalImg.src = src;
       modalTime.textContent = timestamp;
       modal.style.display = "flex";
