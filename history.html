@@ -234,6 +234,9 @@
       const container = document.getElementById("recordDisplay");
       container.style.backgroundColor = month === 0 ? "#8475B0" : "#f0efdb";
       container.style.backgroundImage = month === 0 ? "none" : "url('grid-paper.png')";
+      container.style.backgroundSize = "30px 30px";
+      container.style.backgroundRepeat = "repeat";
+      container.style.backgroundBlendMode = "multiply";
 
       if (month === 0) {
         container.innerHTML = `<div style="color:white;"><h2>2025 Archive</h2><p>Click a tab above to explore your monthly card draws for 2025!</p></div>`;
@@ -249,16 +252,24 @@
       if (filtered.length === 0) {
         container.innerHTML = "<em>No records for this month.</em>";
       } else {
-        container.innerHTML = `
-          <div class="record-grid">
-            ${filtered.map(entry => {
-              const formattedTime = new Date(entry.time).toLocaleString([], {
-                year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit'
-              });
-              return `<div class="record-item" onclick="showModal('cards/card-${entry.num}.png', \"${formattedTime}\")">📌<br>${formattedTime}<br><img src="cards/card-${entry.num}.png" /></div>`;
-            }).join("")}
-          </div>
-        `;
+        const grid = document.createElement("div");
+        grid.className = "record-grid";
+
+        filtered.forEach(entry => {
+          const formattedTime = new Date(entry.time).toLocaleString([], {
+            year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit'
+          });
+
+          const item = document.createElement("div");
+          item.className = "record-item";
+          item.innerHTML = `📌<br>${formattedTime}<br><img src="cards/card-${entry.num}.png" />`;
+          item.addEventListener("click", () => showModal(`cards/card-${entry.num}.png`, formattedTime));
+
+          grid.appendChild(item);
+        });
+
+        container.innerHTML = "";
+        container.appendChild(grid);
       }
     }
 
