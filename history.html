@@ -134,15 +134,13 @@
     }
 
     .copyright {
-      position: fixed;
-      bottom: 0;
-      width: 100%;
-      text-align: center;
       font-size: 10px;
       color: white;
-      background-color: transparent; /* 或你喜欢的颜色 */
-      padding: 8px 0;
+      text-align: center;
+      margin: 40px 0 20px; /* 上下留空一点 */
+      opacity: 0.6;         /* 可选：让它柔和一些 */
     }
+
 
     .modal-overlay {
       position: fixed;
@@ -319,10 +317,11 @@
     };
   </script>
 
-    <div class="copyright">
-      <h5>© qianyilu</h5>
-    </div>
-    </body>
+  <div class="main-container">
+    <div class="card-box">...</div>
+    <div class="recent-draws">...</div>
+    <div class="copyright">© qianyilu</div>  <!-- ✅ 放进主容器内部 -->
+  </div>
 </html>
 </body>
 </html>
