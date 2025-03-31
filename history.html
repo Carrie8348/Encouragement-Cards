@@ -30,6 +30,25 @@
       margin: 16px 0;
     }
 
+    .email-icon {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-size: 24px;
+  text-decoration: none;
+  color: white;
+  background-color: #7E3285;
+  padding: 8px 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  transition: background-color 0.2s ease;
+}
+
+   .email-icon:hover {
+      background-color: #5D0565;
+    }
+
+
     .folder {
       margin: 1rem auto;
       max-width: 1100px;
@@ -211,6 +230,7 @@
 <body>
   <a href="index.html" class="back-button">← Back</a>
   <h1>Draw History by Month</h1>
+  <a href="mailto:qian.yilu.carrie@gmail.com" class="email-icon" title="Email me">✉️</a>
   <div class="folder">
     <div class="tab-container">
       <button class="tab cover-tab" onclick="selectTab(0)">2025</button>
