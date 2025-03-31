@@ -126,8 +126,14 @@
     }
 
     .copyright {
-        font-size:10px;
-        color: white;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      text-align: center;
+      font-size: 10px;
+      color: white;
+      background-color: transparent; /* 或你喜欢的颜色 */
+      padding: 8px 0;
     }
 
     .modal-overlay {
@@ -253,10 +259,6 @@
     </div>
   </div>
 
-  <div class="copyright">
-    <h5>copyright @ qianyilu</h5>
-  </div>
-
   <script>
     function drawCard() {
       const totalCards = 102;
@@ -356,5 +358,8 @@
   </script>
 
   <audio id="drawSound" src="sounds/ding.mp3" preload="auto"></audio>
+  <div class="copyright">
+    <h5>© qianyilu</h5>
+  </div>
 </body>
 </html>
