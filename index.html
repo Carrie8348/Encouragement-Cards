@@ -151,6 +151,33 @@
       opacity: 0.6;         /* 可选：让它柔和一些 */
     }
 
+    /* 默认显示桌面版、隐藏底部 */
+    .email-fixed-desktop {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: white;
+      padding: 10px;
+      border-radius: 50%;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      z-index: 999;
+    }
+
+    .email-footer-mobile {
+      display: none;
+      text-align: center;
+      padding: 20px 0 40px;
+      opacity: 0.8;
+    }
+
+    .footer-email-link svg {
+      transition: transform 0.2s ease;
+    }
+
+    .footer-email-link:hover svg {
+      transform: scale(1.2);
+    }
+
 
     .modal-overlay {
       position: fixed;
@@ -224,11 +251,18 @@
         top: 50px;
         bottom: 50px;
       }
+
+      .email-fixed-desktop {
+        display: none;
+      }
+      .email-footer-mobile {
+        display: block;
+      }
     }
   </style>
 </head>
 <body>
-  <a href="mailto:qian.yilu.carrie@gmail.com"  target="_blank" rel="noopener noreferrer" class="email-float" title="Email me">
+  <a href="mailto:qian.yilu.carrie@gmail.com"  target="_blank" rel="noopener noreferrer" class="email-float email-fixed-desktop" title="Email me">
     <svg viewBox="0 0 24 24" width="26" height="26" fill="white" xmlns="http://www.w3.org/2000/svg">
       <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4
               c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2zm8 7l8-5H4l8 5zm0 2l-8-5v10h16V8l-8 5z"/>
@@ -384,5 +418,13 @@
   <div class="main-container">
     <div class="copyright">© qianyilu</div>  <!-- ✅ 放进主容器内部 -->
   </div>
+
+  <footer class="email-footer-mobile">
+    <a href="mailto:qian.yilu.carrie@gmail.com" target="_blank" class="footer-email-link">
+      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="#8475B0" viewBox="0 0 24 24">
+        <path d="M2 4a2 2 0 012-2h16a2 2 0 012 2v16a2 2 0 01-2 2H4a2 2 0 01-2-2V4zm2 0l8 5 8-5H4zm16 2.236l-8 5-8-5V20h16V6.236z"/>
+      </svg>
+    </a>
+  </footer>
 </body>
 </html>

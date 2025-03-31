@@ -157,6 +157,33 @@
       opacity: 0.6;         /* 可选：让它柔和一些 */
     }
 
+    .email-fixed-desktop {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: white;
+      padding: 10px;
+      border-radius: 50%;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      z-index: 999;
+    }
+
+    .email-footer-mobile {
+      display: none;
+      text-align: center;
+      padding: 20px 0 40px;
+      opacity: 0.8;
+    }
+
+    .footer-email-link svg {
+      transition: transform 0.2s ease;
+    }
+
+    .footer-email-link:hover svg {
+      transform: scale(1.2);
+    }
+
+
 
     .modal-overlay {
       position: fixed;
@@ -225,7 +252,7 @@
   </style>
 </head>
 <body>
-  <a href="mailto:qian.yilu.carrie@gmail.com" target="_blank" rel="noopener noreferrer" class="email-float" title="Email me">
+  <a href="mailto:qian.yilu.carrie@gmail.com" target="_blank" rel="noopener noreferrer" class="email-float email-fixed-desktop" title="Email me">
     <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24" fill="white" viewBox="0 0 24 24">
       <path d="M20 4H4q-.825 0-1.413.588Q2 5.175 2 6v12q0 .825.587 1.413Q3.175 20 4 20h16q.825 0 1.413-.587Q22 18.825 22 18V6q0-.825-.587-1.412Q20.825 4 20 4Zm0 4-8 5-8-5V6l8 5 8-5Z"/>
     </svg>
@@ -342,6 +369,14 @@
   <div class="main-container">
     <div class="copyright">© qianyilu</div>  <!-- ✅ 放进主容器内部 -->
   </div>
+
+  <footer class="email-footer-mobile">
+    <a href="mailto:qian.yilu.carrie@gmail.com" target="_blank" class="footer-email-link">
+      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="#8475B0" viewBox="0 0 24 24">
+        <path d="M2 4a2 2 0 012-2h16a2 2 0 012 2v16a2 2 0 01-2 2H4a2 2 0 01-2-2V4zm2 0l8 5 8-5H4zm16 2.236l-8 5-8-5V20h16V6.236z"/>
+      </svg>
+    </a>
+  </footer>
 
 
 </html>
