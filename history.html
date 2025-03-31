@@ -30,25 +30,22 @@
       margin: 16px 0;
     }
 
-    .email-button {
+    .email-float {
       position: fixed;
-      top: 20px;
-      right: 20px;
+      top: 16px;
+      right: 16px;
       background-color: #8475B0;
-      border-radius: 12px;
       padding: 10px;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
-      z-index: 1000;
-      text-decoration: none;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      z-index: 999;
+      transition: transform 0.2s ease, background-color 0.2s;
     }
 
-    .email-button svg {
-      width: 24px;
-      height: 24px;
-      display: block;
-      fill: white;
+    .email-float:hover {
+      transform: scale(1.1);
+      background-color: #5D0565;
     }
-
     .folder {
       margin: 1rem auto;
       max-width: 1100px;
@@ -228,10 +225,11 @@
   </style>
 </head>
 <body>
-  <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24" fill="white" viewBox="0 0 24 24">
-    <path d="M20 4H4q-.825 0-1.413.588Q2 5.175 2 6v12q0 .825.587 1.413Q3.175 20 4 20h16q.825 0 1.413-.587Q22 18.825 22 18V6q0-.825-.587-1.412Q20.825 4 20 4Zm0 4-8 5-8-5V6l8 5 8-5Z"/>
-  </svg>
-  
+  <a href="mailto:qian.yilu.carrie@gmail.com" class="email-float" title="Email me">
+    <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24" fill="white" viewBox="0 0 24 24">
+      <path d="M20 4H4q-.825 0-1.413.588Q2 5.175 2 6v12q0 .825.587 1.413Q3.175 20 4 20h16q.825 0 1.413-.587Q22 18.825 22 18V6q0-.825-.587-1.412Q20.825 4 20 4Zm0 4-8 5-8-5V6l8 5 8-5Z"/>
+    </svg>
+  </a>
   
   <a href="index.html" class="back-button">← Back</a>
   <h1>Draw History by Month</h1>
