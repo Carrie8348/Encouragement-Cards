@@ -30,23 +30,25 @@
       margin: 16px 0;
     }
 
-    .email-icon {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  font-size: 24px;
-  text-decoration: none;
-  color: white;
-  background-color: #7E3285;
-  padding: 8px 10px;
-  border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
-  transition: background-color 0.2s ease;
-}
-
-   .email-icon:hover {
-      background-color: #5D0565;
+    .email-float {
+      position: fixed;
+      top: 16px;
+      right: 16px;
+      z-index: 999;
+      background: white;
+      border-radius: 50%;
+      padding: 8px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      transition: transform 0.2s ease;
     }
+    .email-float:hover {
+      transform: scale(1.1);
+    }
+    .email-float svg {
+      width: 20px;
+      height: 20px;
+    }
+
 
 
     .folder {
@@ -228,6 +230,12 @@
   </style>
 </head>
 <body>
+  <a href="mailto:qian.yilu.carrie@gmail.com" class="email-float" title="Email me">
+    <svg viewBox="0 0 24 24" width="26" height="26" fill="white" xmlns="http://www.w3.org/2000/svg">
+      <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4
+              c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2zm8 7l8-5H4l8 5zm0 2l-8-5v10h16V8l-8 5z"/>
+    </svg>
+  </a>
   <a href="index.html" class="back-button">← Back</a>
   <h1>Draw History by Month</h1>
   <a href="mailto:qian.yilu.carrie@gmail.com" class="email-icon" title="Email me">✉️</a>

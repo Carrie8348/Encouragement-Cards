@@ -37,9 +37,23 @@
       text-align: center;
     }
 
-    .email-icon:hover {
+    .email-float {
+      position: fixed;
+      top: 16px;
+      right: 16px;
+      background-color: #7E3285;
+      padding: 10px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      z-index: 999;
+      transition: transform 0.2s ease, background-color 0.2s;
+    }
+
+    .email-float:hover {
+      transform: scale(1.1);
       background-color: #5D0565;
     }
+
 
     .draw-area {
       position: relative;
@@ -214,6 +228,12 @@
   </style>
 </head>
 <body>
+  <a href="mailto:qian.yilu.carrie@gmail.com" class="email-float" title="Email me">
+    <svg viewBox="0 0 24 24" width="26" height="26" fill="white" xmlns="http://www.w3.org/2000/svg">
+      <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4
+              c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2zm8 7l8-5H4l8 5zm0 2l-8-5v10h16V8l-8 5z"/>
+    </svg>
+  </a>
   <div class="header">
     <h1 class="rainbow-title">
       <span style="color:#F94144">E</span>
@@ -235,8 +255,8 @@
       <span style="color:#F9C74F">r</span>
       <span style="color:#90BE6D">d</span>
     </h1>
-    <a href="mailto:qian.yilu.carrie@gmail.com" class="email-icon" title="Email me">✉️</a>
   </div>
+    
 
   <div class="container">
     <div class="draw-area">
